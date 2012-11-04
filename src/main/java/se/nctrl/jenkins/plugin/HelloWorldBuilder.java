@@ -1,4 +1,4 @@
-package se.nctrl;
+package se.nctrl.jenkins.plugin;
 import hudson.Launcher;
 import hudson.Extension;
 import hudson.util.FormValidation;

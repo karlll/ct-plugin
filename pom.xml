@@ -6,7 +6,7 @@
     <version>1.466</version><!-- which version of Jenkins is this plugin built against? -->
   </parent>
 
-  <groupId>se.nctrl</groupId>
+  <groupId>se.nctrl.jenkins.plugin</groupId>
   <artifactId>jenkins_ct</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
