@@ -43,8 +43,8 @@ public class CTResultTest {
     @Test
     public void testAddChild() {
         
-        CTResult parent = new CTResult(null);
-        CTResult child = new CTResult(null);
+        CTResult parent = new CTResult();
+        CTResult child = new CTResult();
 
         parent.addChild(child);
 
