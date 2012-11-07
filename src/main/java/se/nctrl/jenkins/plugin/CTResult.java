@@ -2,11 +2,13 @@
 package se.nctrl.jenkins.plugin;
 
 import hudson.model.AbstractBuild;
+import hudson.model.Result;
 import hudson.tasks.test.TestObject;
 import hudson.tasks.test.TestResult;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  *
@@ -16,7 +18,7 @@ public class CTResult  extends TestResult{
 
     private AbstractBuild<?, ?> builder;
     private TestObject parent;
-    private Collection<TestResult> children;
+    private Collection<CTResult> children;
     
   
     private int cases;
@@ -51,11 +53,11 @@ public class CTResult  extends TestResult{
         this.builder = builder;
     }
 
-    public Collection<TestResult> getChildren() {
+    public Collection<CTResult> getChildren() {
         return children;
     }
 
-    public void setChildren(Collection<TestResult> children) {
+    public void setChildren(Collection<CTResult> children) {
         this.children = children;
     }
 
@@ -245,10 +247,10 @@ public class CTResult  extends TestResult{
         }
     }
   
-    public void addChild(TestResult child)
+    public void addChild(CTResult child)
     {
         if (this.children == null) {
-            this.children = new ArrayList<TestResult>();
+            this.children = new ArrayList<CTResult>();
         }
         
         this.children.add(child);
@@ -284,11 +286,150 @@ public class CTResult  extends TestResult{
     
     @Override
     public TestResult findCorrespondingResult(String string) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     public String getDisplayName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (case_name != null) { return case_name; } else {
+            if (this.hasChildren()) {
+                String displayName = "CT Suite";
+                if (this.started != null) {
+                    displayName += " @ " + this.started.toString();
+                }
+                return "CT Suite";
+            } else {
+                return "Unknown";
+            }
+        } 
+    
     }
+    
+private Collection<? extends TestResult> filterChildrenByResult( int result)
+{
+    ArrayList fa = new ArrayList<CTResult>();
+    if (hasChildren())
+    {
+       
+        for(CTResult r : this.children) {
+            if (r.getResult() == result) { fa.add(r);}
+        }
+        
+    }
+    return fa;
+}
+    
+
+//     @Override
+//    public String annotate(String text) {
+//        return "";
+//    }
+
+    @Override
+    public Result getBuildResult() {
+        switch (this.result) {
+            case 0:
+                return Result.UNSTABLE;
+            case 1:
+                return Result.SUCCESS;
+            case 2:
+                return Result.NOT_BUILT;
+            default:
+                return Result.FAILURE;
+        }
+    }
+
+    @Override
+    public float getDuration() {
+        return this.elapsed;
+
+    }
+
+    @Override
+    public String getErrorDetails() {
+        if (this.result == 0) {
+            return this.result_msg;
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public String getErrorStackTrace() {
+        return "";
+    }
+
+    @Override
+    public int getFailCount() {
+        return this.failed;
+    }
+
+    @Override
+    public int getFailedSince() {
+        return 0;
+    }
+
+    //@Override
+    //public  Run<?,?>	getFailedSinceRun()  {return null;}
+    
+    @Override
+    public Collection<? extends TestResult> getFailedTests() {
+        return filterChildrenByResult(0);
+    }
+
+    //@Override
+    //public AbstractTestResultAction	getParentAction()  {}
+
+    @Override
+    public int getPassCount() {
+        return this.successful;
+    }
+
+    @Override
+    public Collection<? extends TestResult> getPassedTests() {
+        return filterChildrenByResult(1);
+
+    }
+
+    @Override
+    public TestResult getPreviousResult() {
+        return null;
+    }
+
+    @Override
+    public int getSkipCount() {
+        return this.auto_skipped + this.user_skipped;
+    }
+
+    @Override
+    public Collection<? extends TestResult> getSkippedTests() {
+        return filterChildrenByResult(2);
+    }
+
+    @Override
+    public String getStderr() {
+        return "stderr";
+    }
+
+    @Override
+    public String getStdout() {
+        return "stdout";
+    }
+
+    @Override
+    public String getTitle() {
+        return "title";
+    }
+
+    @Override
+    public boolean isPassed() {
+        return this.result == 1;
+    }
+ 
+    //@Override
+    //public void	setParentAction(AbstractTestResultAction action)  {}
+
+    //@Override
+    //public void	tally()  {}
+
     
 }

@@ -46,8 +46,8 @@ public class CTResultTest {
         CTResult parent = new CTResult();
         CTResult child = new CTResult();
 
+       
         parent.addChild(child);
-
         assertEquals(parent, child.getParent());
     
     }

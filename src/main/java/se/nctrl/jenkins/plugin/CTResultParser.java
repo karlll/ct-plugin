@@ -29,8 +29,17 @@ public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImp
     @Override
     protected TestResult parse(List<File> list, Launcher lnchr, TaskListener tl) throws InterruptedException, IOException {
         
-        //return new 
-        return null;
+        CTResult parsed_result = new CTResult();
+
+        for (File f : list) {
+            CTLogParser p =  new CTLogParser();
+            CTResult res = p.parse(f);
+            parsed_result.addChild(res);
+            
+        }
+        
+        return parsed_result;
+        
     }
 
   

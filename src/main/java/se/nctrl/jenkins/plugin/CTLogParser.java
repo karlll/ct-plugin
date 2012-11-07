@@ -16,11 +16,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-//=result        ok: UNKNOWN MHz, 40226 ESTONES
-//=hosts         nohosts
-//=group_props   [{suite,mymodule_SUITE}]
-
 /**
  *
  * @author karl
@@ -55,20 +50,21 @@ public class CTLogParser {
     private static Pattern field_pattern = Pattern.compile("^=(\\w+)\\s+(.+)$");
     private static Pattern comment_pattern = Pattern.compile("^===.+$");
     
+    private static final Logger logger = Logger.getLogger(CTLogParser.class.getName());
+    
     private BufferedReader br;
     
     private CTResult tr_root = null;
     private CTResult tr_current_child = null;
+    private boolean parsing_child = false;
     
-    public void parse(File f) throws FileNotFoundException, IOException {
+    public CTResult parse(File f) throws FileNotFoundException, IOException {
         
         this.tr_root = new CTResult();
         
         
         FileInputStream fs = new FileInputStream(f);
-        
         this.br = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
-        
         
         try {
             while (true) {
@@ -85,93 +81,123 @@ public class CTLogParser {
                     String value = f_m.group(2);
                     parseField(fieldname,value);
                 }
-                
                                
             }
         } finally {
             br.close();
         }
+        
+        return tr_root;
     }
 
     private void parseField(String fieldname, String value) throws IOException
     {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        
-        System.out.println("Field = " + fieldname + ", value = " + value);
-        
+
+        logger.log(Level.FINE, "parsed : field = {0}, value = {1}", new Object[]{fieldname, value});
+
         Fields f = Fields.valueOf(fieldname.toUpperCase());
-        
+
         switch (f) {
+
             case CASES:
                 int cases = Integer.parseInt(value);
-                System.out.println("* Set cases to " + cases);
+                logger.log(Level.FINE, "Set cases to {0}", cases);
                 this.tr_root.setCases(cases);
                 break;
+
             case USER:
-                System.out.println("* Set user to " + value);
+                logger.log(Level.FINE, "Set user to {0}", value);
                 this.tr_root.setUser(value);
                 break;
+
             case HOST:
-                System.out.println("* Set host to " + value);
+                logger.log(Level.FINE, "Set host to {0}", value);
                 this.tr_root.setHost(value);
                 break;
+
             case HOSTS:
-                System.out.println("* Set hosts to " + value);
+                logger.log(Level.FINE, "Set hosts to {0}", value);
                 this.tr_root.setHosts(value);
                 break;
+
             case LAN:
-                System.out.println("* Set lan to " + value);
+                logger.log(Level.FINE, "Set lan to {0}", value);
                 this.tr_root.setLan(value);
-
                 break;
+
             case EMULATOR_VSN:
-                System.out.println("* Set emulator_vsn to " + value);
+                logger.log(Level.FINE, "Set emulator_vsn to {0}", value);
                 this.tr_root.setEmulator_vsn(value);
-
                 break;
+
             case EMULATOR:
-                System.out.println("* Set emulator to " + value);
+                logger.log(Level.FINE, "Set emulator to {0}", value);
                 this.tr_root.setEmulator(value);
-
                 break;
+
             case OTP_RELEASE:
-                System.out.println("* Set otp_release to " + value);
+                logger.log(Level.FINE, "Set otp_release to {0}", value);
                 this.tr_root.setOtp_release(value);
-
                 break;
+
             case STARTED:
-                
+
                 Date started_date;
                 try {
                     started_date = df.parse(value);
-                    System.out.println("* Set date to " + started_date.toString());    
+                    logger.log(Level.FINE, "Set date to {0}", started_date.toString());
                 } catch (ParseException ex) {
                     started_date = null;
-                    System.out.println("# Error while parsing date.");
+                    logger.log(Level.SEVERE, "Error while parsing date.");
                 }
-                this.tr_root.setStarted(started_date);
+                if (this.parsing_child && this.tr_current_child != null) {
+                    this.tr_current_child.setStarted(started_date);
+                } else if (!this.parsing_child) {
+                    this.tr_root.setStarted(started_date);
+                } else {
+                    logger.log(Level.SEVERE, "Unexpected date-field.");
+                }
                 break;
             case CASE:
-                System.out.println("* Set case to " + value);
-                this.tr_root.setCase_name(value);
+
+                if (this.parsing_child) {
+                    this.tr_root.addChild(this.tr_current_child);
+                }
+
+                logger.log(Level.FINE, "Creating new child = {0}", value);
+
+                this.tr_current_child = new CTResult();
+                this.tr_current_child.setCase_name(value);
+                this.parsing_child = true;
+
 
                 break;
             case LOGFILE:
-                System.out.println("* Set logfile to " + value);
-                this.tr_root.setLog_file(value);
+                if (this.parsing_child && this.tr_current_child != null) {
+                    logger.log(Level.FINE, "Set logfile to {0}", value);
+                    this.tr_current_child.setLog_file(value);
+                } else if (!this.parsing_child) {
+                    logger.log(Level.SEVERE, "Unexpected logfile-field.");
 
+                }
                 break;
             case ENDED:
-                
-                Date ended_date;
-                try {
-                    ended_date = df.parse(value);
-                    System.out.println("* Set date to " + ended_date.toString());    
-                } catch (ParseException ex) {
-                    ended_date = null;
-                    System.out.println("# Error while parsing date.");
+
+                if (this.parsing_child && this.tr_current_child != null) {
+                    Date ended_date;
+                    try {
+                        ended_date = df.parse(value);
+                        logger.log(Level.FINE, "Set date to {0}", ended_date.toString());
+                    } catch (ParseException ex) {
+                        ended_date = null;
+                        logger.log(Level.SEVERE, "Error while parsing date.");
+                    }
+                    this.tr_current_child.setEnded(ended_date);
+                } else if (!this.parsing_child) {
+                    logger.log(Level.SEVERE, "Unexpected ended-field.");
+
                 }
-                this.tr_root.setEnded(ended_date);
                 break;
 
             case RESULT:
@@ -180,30 +206,43 @@ public class CTLogParser {
                 String value2 = this.readMultiLine();
                 String value3 = value + value2;
 
-                
-                if (value3 != null) {
-                    if (value3.substring(0, 2).toUpperCase().equals("OK"))
-                    {
-                       System.out.println("* Set result to OK");
-                       res = 1;
-                    } else if (value3.substring(0, 6).toUpperCase().equals("FAILED")) {
-                       System.out.println("* Set result to FAILED"); 
-                       res = 0; 
-                    } else if (value3.substring(0, 7).toUpperCase().equals("SKIPPED")) {
-                       System.out.println("* Set result to SKIPPED"); 
-                       res = 2; 
+                if (this.parsing_child && this.tr_current_child != null) {
+
+                    if (value3 != null) {
+                        if (value3.substring(0, 2).toUpperCase().equals("OK")) {
+                            logger.log(Level.FINE, "Set result to OK");
+                            res = 1;
+                        } else if (value3.substring(0, 6).toUpperCase().equals("FAILED")) {
+                            logger.log(Level.FINE, "Set result to FAILED");
+                            res = 0;
+                        } else if (value3.substring(0, 7).toUpperCase().equals("SKIPPED")) {
+                            logger.log(Level.FINE, "Set result to SKIPPED");
+                            res = 2;
+                        } else {
+                            logger.log(Level.SEVERE, "Uable to parse result-field (Invalid result)");
+                        }
+                    } else {
+                        logger.log(Level.SEVERE, "Uable to parse result-field (Empty result)");
                     }
+                    this.tr_current_child.setResult(res);
+                    this.tr_current_child.setResult_msg(value3);
+                } else if (!this.parsing_child) {
+                    logger.log(Level.SEVERE, "Unexpected result-field.");
                 }
-                this.tr_root.setResult(res);
-                this.tr_root.setResult_msg(value3);
                 break;
+
             case ELAPSED:
+                if (this.parsing_child && this.tr_current_child != null) {
                 float elapsed = Float.parseFloat(value);
-                System.out.println("* Set elapsed to " + elapsed);
-                this.tr_root.setElapsed(elapsed);                
+                logger.log(Level.FINE, "Set elapsed to {0}", elapsed);
+                this.tr_root.setElapsed(elapsed); 
+                }  else if (!this.parsing_child) {
+                    logger.log(Level.SEVERE, "Unexpected result-field.");
+                }
                 break;
+
             case GROUP_TIME:
-                System.out.println("* Set group time to " + value);
+                logger.log(Level.FINE, "Set group time to {0}", value);
                 this.tr_root.setGroup_time(value);
 
                 break;
@@ -211,29 +250,35 @@ public class CTLogParser {
                 Date finished_date;
                 try {
                     finished_date = df.parse(value);
-                    System.out.println("* Set finished date to " + finished_date.toString());    
+                    logger.log(Level.FINE, "Set finished date to {0}", finished_date.toString());
                 } catch (ParseException ex) {
                     finished_date = null;
-                    System.out.println("# Error while parsing date.");
+                    logger.log(Level.SEVERE, "Error while parsing date.");
                 }
                 this.tr_root.setEnded(finished_date);
                 break;
 
             case SUCCESSFUL:
                 int successful = Integer.parseInt(value);
-                System.out.println("* Set successful to " + successful);
+                logger.log(Level.FINE, "Set successful to {0}", successful);
                 this.tr_root.setSuccessful(successful);
+
+                break;
+            case FAILED:
+                int failed = Integer.parseInt(value);
+                logger.log(Level.FINE, "Set failed to {0}", failed);
+                this.tr_root.setSuccessful(failed);
 
                 break;
             case USER_SKIPPED:
                 int user_skipped = Integer.parseInt(value);
-                System.out.println("* Set user_skipped to " + user_skipped);
+                logger.log(Level.FINE, "Set user_skipped to {0}", user_skipped);
                 this.tr_root.setUser_skipped(user_skipped);
 
                 break;
             case AUTO_SKIPPED:
                 int auto_skipped = Integer.parseInt(value);
-                System.out.println("* Set auto_skipped to " + auto_skipped);
+                logger.log(Level.FINE, "Set auto_skipped to {0}", auto_skipped);
                 this.tr_root.setAuto_skipped(auto_skipped);
 
 
@@ -241,18 +286,14 @@ public class CTLogParser {
             case GROUP_PROPS:
                 String gp_value2 = this.readMultiLine();
                 String gp_value3 = value + gp_value2;
-                
+
                 this.tr_root.setGroup_props(gp_value3);
 
                 break;
             default:
         }
-        
-        
-        if (fieldname.equals("result")) {
-            String val2 = readMultiLine();
-            System.out.println("value_2 = " + value+val2);
-        }
+
+
     }
     
     private String readMultiLine() throws IOException {
@@ -275,7 +316,6 @@ public class CTLogParser {
             } else { done = true; }
             
         }
-        
         
         return sb.toString();
     }
