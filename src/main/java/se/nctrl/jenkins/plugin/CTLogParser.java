@@ -1,6 +1,7 @@
 
 package se.nctrl.jenkins.plugin;
 
+import hudson.model.AbstractBuild;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,10 +58,15 @@ public class CTLogParser {
     private CTResult tr_root = null;
     private CTResult tr_current_child = null;
     private boolean parsing_child = false;
+    private AbstractBuild build;
+
+    public CTLogParser(AbstractBuild build) {
+        this.build = build;
+    }
     
     public CTResult parse(File f) throws FileNotFoundException, IOException {
         
-        this.tr_root = new CTResult();
+        this.tr_root = new CTResult(this.build);
         
         
         FileInputStream fs = new FileInputStream(f);
@@ -167,7 +173,7 @@ public class CTLogParser {
 
                 logger.log(Level.FINE, "Creating new child = {0}", value);
 
-                this.tr_current_child = new CTResult();
+                this.tr_current_child = new CTResult(this.build);
                 this.tr_current_child.setCase_name(value);
                 this.parsing_child = true;
 

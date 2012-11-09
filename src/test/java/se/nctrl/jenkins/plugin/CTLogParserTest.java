@@ -5,9 +5,13 @@
 package se.nctrl.jenkins.plugin;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
@@ -21,6 +25,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 /**
  *
@@ -36,7 +44,36 @@ public class CTLogParserTest {
          //return "CTLogParser: " + record.getMessage()
 	} 
  }
-    public CTLogParserTest() {
+ 
+ private class FF implements FileFilter
+ {
+
+        public boolean accept(File pathname) {
+            System.out.println(pathname);
+         return true;
+            
+        }
+     
+ }
+
+  private class aFF implements IOFileFilter
+ {
+
+        public boolean accept(File file) {
+            System.out.println(file);
+         return true;
+            
+        }
+
+        public boolean accept(File dir, String name) {
+            System.out.println(dir + " : " + name);
+            return true;
+        }
+     
+ }
+
+ 
+ public CTLogParserTest() {
     }
     
     @BeforeClass
@@ -66,9 +103,19 @@ public class CTLogParserTest {
     }
 
     @Test
+    public void testFilpath() {
+        File b = new File("/home/karl/tmp/");
+        LinkedList<File> f = (LinkedList<File>) FileUtils.listFiles(b,new aFF(), TrueFileFilter.INSTANCE);
+        for ( File i : f)
+        {
+            System.out.println(" Item = " + i.toString());
+        }
+    }
+    
+    @Test
     public void testParse() {
 
-        CTLogParser p = new CTLogParser();
+        CTLogParser p = new CTLogParser(null);
         URL u = this.getClass().getResource("/suite2.log");
         String f = u.getFile();
         

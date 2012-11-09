@@ -5,8 +5,14 @@ import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.AbstractProject;
+import hudson.model.JobProperty;
+import hudson.model.Result;
 import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
+import hudson.tasks.BuildStepMonitor;
+import hudson.tasks.Publisher;
+import hudson.tasks.Recorder;
+import hudson.tasks.test.TestResultParser;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
@@ -32,7 +38,7 @@ import java.io.IOException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class CTLogCollector extends Builder {
+public class CTLogCollector extends Recorder {
 
     private final String log_path;
 
@@ -50,10 +56,16 @@ public class CTLogCollector extends Builder {
     }
 
     @Override
-    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
+    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         
-            listener.getLogger().println("Collecting logs from " + this.log_path);
-        return true;
+           CTResultParser log_p = new CTResultParser();
+            CTResult res = (CTResult) log_p.parse(log_path, false, build, launcher, listener);
+            
+            if (!res.isPassed())
+            {
+                build.setResult(Result.UNSTABLE);
+            }
+            return true;
     }
 
     // Overridden for better type safety.
@@ -62,6 +74,10 @@ public class CTLogCollector extends Builder {
     @Override
     public DescriptorImpl getDescriptor() {
         return (DescriptorImpl)super.getDescriptor();
+    }
+
+    public BuildStepMonitor getRequiredMonitorService() {
+        return BuildStepMonitor.STEP;
     }
 
     /**
@@ -73,12 +89,12 @@ public class CTLogCollector extends Builder {
      * for the actual HTML fragment for the configuration screen.
      */
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.
-    public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
+    public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
         /**
          * To persist global configuration information,
          * simply store it in a field and call save().
          *
-         * <p>
+         * 
          * If you don't want fields to be persisted, use <tt>transient</tt>.
          */
         private boolean useFrench;

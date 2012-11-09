@@ -264,7 +264,12 @@ public class CTResult  extends TestResult{
         
     }
 
-    
+     public CTResult(AbstractBuild<?, ?> builder) {
+        
+        this.builder = builder;
+        this.children = null;
+        
+    }  
     
     @Override
     public AbstractBuild<?, ?> getOwner() {

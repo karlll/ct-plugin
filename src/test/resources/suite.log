@@ -1,66 +1,1569 @@
-=== Suite started at 2012-08-21 20:22:23
-=== Starting test, 6 test cases
-=cases         6
-=user          a2l
-=host          liten-apa.lan
-=hosts         liten-apa.lan 
-=emulator_vsn  5.9.1
+=== Suite started at 2011-12-16 18:02:33
+=== Starting test, 54 test cases
+=cases         54
+=user          bingen
+=host          fedora-15-x86
+=hosts         fedora-15-x86 
+=emulator_vsn  5.9
 =emulator      beam
-=otp_release   R15B01
-=started       2012-08-21 20:22:23
-=case          kjell_extension_SUITE:init_per_suite
-=logfile       kjell_extension_suite.init_per_suite.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=otp_release   R15B
+=started       2011-12-16 18:02:33
+=case          ssh_SUITE:app_test
+=logfile       ssh_suite.app_test.html
+=started       2011-12-16 18:02:33
+=ended         2011-12-16 18:02:33
 =result        ok
-=elapsed       1.0e-6
-=case          kjell_extension_SUITE:load_extension
-=logfile       kjell_extension_suite.load_extension.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=elapsed       0.0359
+=case          ssh_basic_SUITE:init_per_suite
+=logfile       ssh_basic_suite.init_per_suite.html
+=started       2011-12-16 18:02:33
+=ended         2011-12-16 18:02:34
 =result        ok
-=elapsed       0.016193
-=case          kjell_extension_SUITE:activate_ext_point
-=logfile       kjell_extension_suite.activate_ext_point.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=elapsed       1.548669
+=case          ssh_basic_SUITE:exec
+=logfile       ssh_basic_suite.exec.html
+=started       2011-12-16 18:02:34
+=ended         2011-12-16 18:02:34
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.426.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_basic_SUITE,exec,1,
+                              [{file,"ssh_basic_SUITE.erl"},{line,144}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.426.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_basic_SUITE,exec,1,
+                          [{file,"ssh_basic_SUITE.erl"},{line,144}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_basic_SUITE,
+                                                                       exec,
+                                                                       144},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 2 of 54
+=case          ssh_basic_SUITE:exec_compressed
+=logfile       ssh_basic_suite.exec_compressed.html
+=started       2011-12-16 18:02:35
+=ended         2011-12-16 18:02:35
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.450.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_basic_SUITE,exec_compressed,1,
+                              [{file,"ssh_basic_SUITE.erl"},{line,188}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.450.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_basic_SUITE,exec_compressed,1,
+                          [{file,"ssh_basic_SUITE.erl"},{line,188}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_basic_SUITE,
+                                                                       exec_compressed,
+                                                                       188},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 3 of 54
+=case          ssh_basic_SUITE:shell
+=logfile       ssh_basic_suite.shell.html
+=started       2011-12-16 18:02:35
+=ended         2011-12-16 18:32:45
+=result        failed: testcase_aborted_or_killed, unknown
+=== *** FAILED *** test case 4 of 54
+=case          ssh_basic_SUITE:daemon_already_started
+=logfile       ssh_basic_suite.daemon_already_started.html
+=started       2011-12-16 18:32:45
+=ended         2011-12-16 18:32:45
 =result        ok
-=elapsed       0.016284
-=case          kjell_extension_SUITE:non_registered_ext_point
-=logfile       kjell_extension_suite.non_registered_ext_point.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=elapsed       0.007217
+=case          ssh_basic_SUITE:server_password_option
+=logfile       ssh_basic_suite.server_password_option.html
+=started       2011-12-16 18:32:45
+=ended         2011-12-16 18:32:45
 =result        ok
-=elapsed       0.013495
-=case          kjell_extension_SUITE:cmd_ok
-=logfile       kjell_extension_suite.cmd_ok.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=elapsed       0.100996
+=case          ssh_basic_SUITE:server_userpassword_option
+=logfile       ssh_basic_suite.server_userpassword_option.html
+=started       2011-12-16 18:32:45
+=ended         2011-12-16 18:32:45
 =result        ok
-=elapsed       0.014735
-=case          kjell_extension_SUITE:cmd_error
-=logfile       kjell_extension_suite.cmd_error.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=elapsed       0.153769
+=case          ssh_basic_SUITE:known_hosts
+=logfile       ssh_basic_suite.known_hosts.html
+=started       2011-12-16 18:32:45
+=ended         2011-12-16 18:32:45
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.582.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_basic_SUITE,known_hosts,1,
+                              [{file,"ssh_basic_SUITE.erl"},{line,377}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.582.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_basic_SUITE,known_hosts,1,
+                          [{file,"ssh_basic_SUITE.erl"},{line,377}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_basic_SUITE,
+                                                                       known_hosts,
+                                                                       377},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 8 of 54
+=case          ssh_basic_SUITE:end_per_suite
+=logfile       ssh_basic_suite.end_per_suite.html
+=started       2011-12-16 18:32:45
+=ended         2011-12-16 18:32:45
 =result        ok
-=elapsed       0.013334
-=case          kjell_extension_SUITE:cmd_undef
-=logfile       kjell_extension_suite.cmd_undef.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
+=elapsed       0.001777
+=group_time    1812.394s
+=case          ssh_sftp_SUITE:init_per_suite
+=logfile       ssh_sftp_suite.init_per_suite.html
+=started       2011-12-16 18:32:45
+=ended         2011-12-16 18:32:48
 =result        ok
-=elapsed       0.013516
-=case          kjell_extension_SUITE:end_per_suite
-=logfile       kjell_extension_suite.end_per_suite.html
-=started       2012-08-21 20:22:23
-=ended         2012-08-21 20:22:23
-=result        ok
-=elapsed       1.0e-6
-=group_time    0.278s
-=== TEST COMPLETE, 6 ok, 0 failed of 6 test cases
+=elapsed       3.087187
+=case          ssh_sftp_SUITE:open_close_file
+=logfile       ssh_sftp_suite.open_close_file.html
+=started       2011-12-16 18:32:48
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
 
-=finished      2012-08-21 20:22:23
-=failed        0
-=successful    6
-=user_skipped  0
-=auto_skipped  0
+=ended         2011-12-16 18:32:48
+=result        skipped
+=== *** SKIPPED *** test case 9 of 54
+=case          ssh_sftp_SUITE:open_close_dir
+=logfile       ssh_sftp_suite.open_close_dir.html
+=started       2011-12-16 18:32:48
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 10 of 54
+=case          ssh_sftp_SUITE:read_file
+=logfile       ssh_sftp_suite.read_file.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 11 of 54
+=case          ssh_sftp_SUITE:read_dir
+=logfile       ssh_sftp_suite.read_dir.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 12 of 54
+=case          ssh_sftp_SUITE:write_file
+=logfile       ssh_sftp_suite.write_file.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 13 of 54
+=case          ssh_sftp_SUITE:rename_file
+=logfile       ssh_sftp_suite.rename_file.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 14 of 54
+=case          ssh_sftp_SUITE:mk_rm_dir
+=logfile       ssh_sftp_suite.mk_rm_dir.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 15 of 54
+=case          ssh_sftp_SUITE:remove_file
+=logfile       ssh_sftp_suite.remove_file.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:49
+=result        skipped
+=== *** SKIPPED *** test case 16 of 54
+=case          ssh_sftp_SUITE:links
+=logfile       ssh_sftp_suite.links.html
+=started       2011-12-16 18:32:49
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 17 of 54
+=case          ssh_sftp_SUITE:retrieve_attributes
+=logfile       ssh_sftp_suite.retrieve_attributes.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 18 of 54
+=case          ssh_sftp_SUITE:set_attributes
+=logfile       ssh_sftp_suite.set_attributes.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 19 of 54
+=case          ssh_sftp_SUITE:async_read
+=logfile       ssh_sftp_suite.async_read.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 20 of 54
+=case          ssh_sftp_SUITE:async_write
+=logfile       ssh_sftp_suite.async_write.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 21 of 54
+=case          ssh_sftp_SUITE:position
+=logfile       ssh_sftp_suite.position.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 22 of 54
+=case          ssh_sftp_SUITE:pos_read
+=logfile       ssh_sftp_suite.pos_read.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:50
+=result        skipped
+=== *** SKIPPED *** test case 23 of 54
+=case          ssh_sftp_SUITE:pos_write
+=logfile       ssh_sftp_suite.pos_write.html
+=started       2011-12-16 18:32:50
+=== ERROR! init_per_testcase crashed!
+	Location: [{ssh,daemon,177},
+              {ssh_test_lib,daemon,62},
+              {ssh_sftp_SUITE,init_per_testcase,<a href="ssh_sftp_suite.src.html#100">105</a>},
+              {test_server,do_init_per_testcase,1410},
+              {test_server,run_test_case_eval1,1154},
+              {test_server,run_test_case_eval,1123}]
+	Reason: {{case_clause,"fedora-15-x86"},
+                 [{ssh,daemon,3,[{file,"ssh.erl"},{line,177}]},
+                  {ssh_test_lib,daemon,3,
+                                [{file,"ssh_test_lib.erl"},{line,62}]},
+                  {ssh_sftp_SUITE,init_per_testcase,2,
+                                  [{file,"ssh_sftp_SUITE.erl"},{line,105}]},
+                  {test_server,do_init_per_testcase,2,
+                               [{file,"test_server.erl"},{line,1410}]},
+                  {test_server,run_test_case_eval1,6,
+                               [{file,"test_server.erl"},{line,1154}]},
+                  {test_server,run_test_case_eval,9,
+                               [{file,"test_server.erl"},{line,1123}]}]}
+
+=ended         2011-12-16 18:32:51
+=result        skipped
+=== *** SKIPPED *** test case 24 of 54
+=case          ssh_sftp_SUITE:end_per_suite
+=logfile       ssh_sftp_suite.end_per_suite.html
+=started       2011-12-16 18:32:51
+=ended         2011-12-16 18:32:51
+=result        ok
+=elapsed       5.09e-4
+=group_time    5.421s
+=case          ssh_sftpd_SUITE:init_per_suite
+=logfile       ssh_sftpd_suite.init_per_suite.html
+=started       2011-12-16 18:32:51
+=ended         2011-12-16 18:32:52
+=result        ok
+=elapsed       1.347125
+=case          ssh_sftpd_SUITE:open_close_file
+=logfile       ssh_sftpd_suite.open_close_file.html
+=started       2011-12-16 18:32:52
+=ended         2011-12-16 18:32:52
+=result        ok
+=elapsed       0.081779
+=case          ssh_sftpd_SUITE:open_close_dir
+=logfile       ssh_sftpd_suite.open_close_dir.html
+=started       2011-12-16 18:32:52
+=ended         2011-12-16 18:32:52
+=result        ok
+=elapsed       0.080208
+=case          ssh_sftpd_SUITE:read_file
+=logfile       ssh_sftpd_suite.read_file.html
+=started       2011-12-16 18:32:52
+=ended         2011-12-16 18:32:52
+=result        ok
+=elapsed       0.039457
+=case          ssh_sftpd_SUITE:read_dir
+=logfile       ssh_sftpd_suite.read_dir.html
+=started       2011-12-16 18:32:52
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.080119
+=case          ssh_sftpd_SUITE:write_file
+=logfile       ssh_sftpd_suite.write_file.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.039903
+=case          ssh_sftpd_SUITE:rename_file
+=logfile       ssh_sftpd_suite.rename_file.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.080517
+=case          ssh_sftpd_SUITE:mk_rm_dir
+=logfile       ssh_sftpd_suite.mk_rm_dir.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.081503
+=case          ssh_sftpd_SUITE:remove_file
+=logfile       ssh_sftpd_suite.remove_file.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.039693
+=case          ssh_sftpd_SUITE:real_path
+=logfile       ssh_sftpd_suite.real_path.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.03992
+=case          ssh_sftpd_SUITE:retrieve_attributes
+=logfile       ssh_sftpd_suite.retrieve_attributes.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:53
+=result        ok
+=elapsed       0.080215
+=case          ssh_sftpd_SUITE:set_attributes
+=logfile       ssh_sftpd_suite.set_attributes.html
+=started       2011-12-16 18:32:53
+=ended         2011-12-16 18:32:54
+=result        ok
+=elapsed       0.079308
+=case          ssh_sftpd_SUITE:links
+=logfile       ssh_sftpd_suite.links.html
+=started       2011-12-16 18:32:54
+=ended         2011-12-16 18:32:54
+=result        ok
+=elapsed       0.03986
+=case          ssh_sftpd_SUITE:ver3_rename_OTP_6352
+=logfile       ssh_sftpd_suite.ver3_rename_otp_6352.html
+=started       2011-12-16 18:32:54
+=ended         2011-12-16 18:32:54
+=result        ok
+=elapsed       0.039655
+=case          ssh_sftpd_SUITE:seq10670
+=logfile       ssh_sftpd_suite.seq10670.html
+=started       2011-12-16 18:32:54
+=ended         2011-12-16 18:32:54
+=result        ok
+=elapsed       0.03941
+=case          ssh_sftpd_SUITE:sshd_read_file
+=logfile       ssh_sftpd_suite.sshd_read_file.html
+=started       2011-12-16 18:32:54
+=ended         2011-12-16 18:32:54
+=result        ok
+=elapsed       0.040458
+=case          ssh_sftpd_SUITE:end_per_suite
+=logfile       ssh_sftpd_suite.end_per_suite.html
+=started       2011-12-16 18:32:54
+=ended         2011-12-16 18:32:54
+=result        ok
+=elapsed       7.74e-4
+=group_time    3.412s
+=case          ssh_sftpd_erlclient_SUITE:init_per_suite
+=logfile       ssh_sftpd_erlclient_suite.init_per_suite.html
+=started       2011-12-16 18:32:54
+=ended         2011-12-16 18:32:58
+=result        ok
+=elapsed       3.467206
+=case          ssh_sftpd_erlclient_SUITE:close_file_OTP_6350
+=logfile       ssh_sftpd_erlclient_suite.close_file_otp_6350.html
+=started       2011-12-16 18:32:58
+=ended         2011-12-16 18:32:58
+=result        ok
+=elapsed       0.0029
+=case          ssh_sftpd_erlclient_SUITE:quit_OTP_6349
+=logfile       ssh_sftpd_erlclient_suite.quit_otp_6349.html
+=started       2011-12-16 18:32:58
+=ended         2011-12-16 18:33:03
+=result        ok
+=elapsed       5.055958
+=case          ssh_sftpd_erlclient_SUITE:file_cb_OTP_6356
+=logfile       ssh_sftpd_erlclient_suite.file_cb_otp_6356.html
+=started       2011-12-16 18:33:03
+=ended         2011-12-16 18:33:03
+=result        ok
+=elapsed       0.004773
+=case          ssh_sftpd_erlclient_SUITE:root_dir
+=logfile       ssh_sftpd_erlclient_suite.root_dir.html
+=started       2011-12-16 18:33:03
+=ended         2011-12-16 18:33:03
+=result        ok
+=elapsed       0.005335
+=case          ssh_sftpd_erlclient_SUITE:list_dir_limited
+=logfile       ssh_sftpd_erlclient_suite.list_dir_limited.html
+=started       2011-12-16 18:33:03
+=ended         2011-12-16 18:33:03
+=result        ok
+=elapsed       0.004044
+=case          ssh_sftpd_erlclient_SUITE:end_per_suite
+=logfile       ssh_sftpd_erlclient_suite.end_per_suite.html
+=started       2011-12-16 18:33:03
+=ended         2011-12-16 18:33:03
+=result        ok
+=elapsed       1.11e-4
+=group_time    8.975s
+=case          ssh_to_openssh_SUITE:init_per_suite
+=logfile       ssh_to_openssh_suite.init_per_suite.html
+=started       2011-12-16 18:33:03
+=ended         2011-12-16 18:33:05
+=result        ok
+=elapsed       2.378875
+=case          ssh_to_openssh_SUITE:erlang_shell_client_openssh_server
+=logfile       ssh_to_openssh_suite.erlang_shell_client_openssh_server.html
+=started       2011-12-16 18:33:05
+=ended         2011-12-16 19:03:15
+=result        failed: testcase_aborted_or_killed, unknown
+=== *** FAILED *** test case 45 of 54
+=case          ssh_to_openssh_SUITE:erlang_client_openssh_server_exec
+=logfile       ssh_to_openssh_suite.erlang_client_openssh_server_exec.html
+=started       2011-12-16 19:03:15
+=ended         2011-12-16 19:03:16
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.1335.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_to_openssh_SUITE,
+                              erlang_client_openssh_server_exec,1,
+                              [{file,"ssh_to_openssh_SUITE.erl"},{line,165}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.1335.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_to_openssh_SUITE,
+                          erlang_client_openssh_server_exec,1,
+                          [{file,"ssh_to_openssh_SUITE.erl"},{line,165}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_to_openssh_SUITE,
+                                                                       erlang_client_openssh_server_exec,
+                                                                       165},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 46 of 54
+=case          ssh_to_openssh_SUITE:erlang_client_openssh_server_exec_compressed
+=logfile       ssh_to_openssh_suite.erlang_client_openssh_server_exec_compressed.html
+=started       2011-12-16 19:03:16
+=ended         2011-12-16 19:03:16
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.1342.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_to_openssh_SUITE,
+                              erlang_client_openssh_server_exec_compressed,1,
+                              [{file,"ssh_to_openssh_SUITE.erl"},{line,208}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.1342.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_to_openssh_SUITE,
+                          erlang_client_openssh_server_exec_compressed,1,
+                          [{file,"ssh_to_openssh_SUITE.erl"},{line,208}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_to_openssh_SUITE,
+                                                                       erlang_client_openssh_server_exec_compressed,
+                                                                       208},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 47 of 54
+=case          ssh_to_openssh_SUITE:erlang_server_openssh_client_exec
+=logfile       ssh_to_openssh_suite.erlang_server_openssh_client_exec.html
+=started       2011-12-16 19:03:16
+=ended         2011-12-16 19:04:06
+=result        failed: {suite_failed,"Did not receive answer"}, [{ssh_to_openssh_SUITE,
+                                                                  erlang_server_openssh_client_exec,
+                                                                  247},
+                                                                 {test_server,
+                                                                  ts_tc,1635},
+                                                                 {test_server,
+                                                                  run_test_case_eval1,
+                                                                  1182},
+                                                                 {test_server,
+                                                                  run_test_case_eval,
+                                                                  1123}]
+=== *** FAILED *** test case 48 of 54
+=case          ssh_to_openssh_SUITE:erlang_server_openssh_client_exec_compressed
+=logfile       ssh_to_openssh_suite.erlang_server_openssh_client_exec_compressed.html
+=started       2011-12-16 19:04:06
+=ended         2011-12-16 19:04:57
+=result        failed: {suite_failed,"Did not receive answer"}, [{ssh_to_openssh_SUITE,
+                                                                  erlang_server_openssh_client_exec_compressed,
+                                                                  275},
+                                                                 {test_server,
+                                                                  ts_tc,1635},
+                                                                 {test_server,
+                                                                  run_test_case_eval1,
+                                                                  1182},
+                                                                 {test_server,
+                                                                  run_test_case_eval,
+                                                                  1123}]
+=== *** FAILED *** test case 49 of 54
+=case          ssh_to_openssh_SUITE:erlang_client_openssh_server_setenv
+=logfile       ssh_to_openssh_suite.erlang_client_openssh_server_setenv.html
+=started       2011-12-16 19:04:57
+=ended         2011-12-16 19:04:57
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.1382.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_to_openssh_SUITE,
+                              erlang_client_openssh_server_setenv,1,
+                              [{file,"ssh_to_openssh_SUITE.erl"},{line,292}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.1382.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_to_openssh_SUITE,
+                          erlang_client_openssh_server_setenv,1,
+                          [{file,"ssh_to_openssh_SUITE.erl"},{line,291}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_to_openssh_SUITE,
+                                                                       erlang_client_openssh_server_setenv,
+                                                                       291},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 50 of 54
+=case          ssh_to_openssh_SUITE:erlang_client_openssh_server_publickey_rsa
+=logfile       ssh_to_openssh_suite.erlang_client_openssh_server_publickey_rsa.html
+=started       2011-12-16 19:04:57
+=ended         2011-12-16 19:04:57
+=result        failed: {{badmatch,
+                         {'EXIT',
+                          {{function_clause,
+                            [{gen,call,
+                              [{error,
+                                [69,114,108,97,110,103,32,115,115,104,32,99,
+                                 111,110,110,101,99,116,105,111,110,32,104,97,
+                                 110,100,108,101,114,32,102,97,105,108,101,
+                                 100,32,119,105,116,104,32,114,101,97,115,111,
+                                 110,58,32,
+                                 [123,
+                                  ["bad_return_value",44,10,
+                                   [32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   [123,
+                                    ["no_io_allowed",44,10,
+                                     [32,32,
+                                      [32,
+                                       [["   ",32,32,32],"   ",32,32,32],
+                                       ["   ",32,32,32],
+                                       "   ",32,32,32],
+                                      32,
+                                      [["   ",32,32,32],"   ",32,32,32],
+                                      ["   ",32,32,32],
+                                      "   ",32,32,32],
+                                     "read_password"],
+                                    125]],
+                                  125],
+                                 32,44,32,112,108,101,97,115,101,32,114,101,
+                                 112,111,114,116,32,116,104,105,115,32,116,
+                                 111,32,101,114,108,97,110,103,45,98,117,103,
+                                 115,64,101,114,108,97,110,103,46,111,114,103,
+                                 32,10]},
+                               '$gen_call',
+                               {open,<0.1396.0>,"session",65536,32768,<<>>},
+                               infinity],
+                              [{file,"gen.erl"},{line,146}]},
+                             {gen_server,call,3,
+                              [{file,"gen_server.erl"},{line,184}]},
+                             {ssh_connection_manager,call,3,
+                              [{file,"ssh_connection_manager.erl"},
+                               {line,600}]},
+                             {ssh_connection_manager,open_channel,6,
+                              [{file,"ssh_connection_manager.erl"},{line,77}]},
+                             {ssh_to_openssh_SUITE,
+                              erlang_client_openssh_server_publickey_rsa,1,
+                              [{file,"ssh_to_openssh_SUITE.erl"},{line,344}]},
+                             {test_server,ts_tc,3,
+                              [{file,"test_server.erl"},{line,1635}]},
+                             {test_server,run_test_case_eval1,6,
+                              [{file,"test_server.erl"},{line,1182}]},
+                             {test_server,run_test_case_eval,9,
+                              [{file,"test_server.erl"},{line,1123}]}]},
+                           {gen_server,call,
+                            [{error,
+                              [69,114,108,97,110,103,32,115,115,104,32,99,111,
+                               110,110,101,99,116,105,111,110,32,104,97,110,
+                               100,108,101,114,32,102,97,105,108,101,100,32,
+                               119,105,116,104,32,114,101,97,115,111,110,58,
+                               32,
+                               [123,
+                                ["bad_return_value",44,10,
+                                 [32,
+                                  [32,
+                                   [["   ",32,32,32],"   ",32,32,32],
+                                   ["   ",32,32,32],
+                                   "   ",32,32,32],
+                                  32,
+                                  [["   ",32,32,32],"   ",32,32,32],
+                                  ["   ",32,32,32],
+                                  "   ",32,32,32],
+                                 [123,
+                                  ["no_io_allowed",44,10,
+                                   [32,32,
+                                    [32,
+                                     [["   ",32,32,32],"   ",32,32,32],
+                                     ["   ",32,32,32],
+                                     "   ",32,32,32],
+                                    32,
+                                    [["   ",32,32,32],"   ",32,32,32],
+                                    ["   ",32,32,32],
+                                    "   ",32,32,32],
+                                   "read_password"],
+                                  125]],
+                                125],
+                               32,44,32,112,108,101,97,115,101,32,114,101,112,
+                               111,114,116,32,116,104,105,115,32,116,111,32,
+                               101,114,108,97,110,103,45,98,117,103,115,64,
+                               101,114,108,97,110,103,46,111,114,103,32,10]},
+                             {open,<0.1396.0>,"session",65536,32768,<<>>},
+                             infinity]}}}},
+                        [{ssh_to_openssh_SUITE,
+                          erlang_client_openssh_server_publickey_rsa,1,
+                          [{file,"ssh_to_openssh_SUITE.erl"},{line,343}]},
+                         {test_server,ts_tc,3,
+                          [{file,"test_server.erl"},{line,1635}]},
+                         {test_server,run_test_case_eval1,6,
+                          [{file,"test_server.erl"},{line,1182}]},
+                         {test_server,run_test_case_eval,9,
+                          [{file,"test_server.erl"},{line,1123}]}]}, [{ssh_to_openssh_SUITE,
+                                                                       erlang_client_openssh_server_publickey_rsa,
+                                                                       343},
+                                                                      {test_server,
+                                                                       ts_tc,
+                                                                       1635},
+                                                                      {test_server,
+                                                                       run_test_case_eval1,
+                                                                       1182},
+                                                                      {test_server,
+                                                                       run_test_case_eval,
+                                                                       1123}]
+=== *** FAILED *** test case 51 of 54
+=case          ssh_to_openssh_SUITE:erlang_client_openssh_server_publickey_dsa
+=logfile       ssh_to_openssh_suite.erlang_client_openssh_server_publickey_dsa.html
+=started       2011-12-16 19:04:57
+=ended         2011-12-16 19:04:57
+=result        skipped
+=== *** SKIPPED *** test case 52 of 54
+=case          ssh_to_openssh_SUITE:erlang_server_openssh_client_pulic_key_dsa
+=logfile       ssh_to_openssh_suite.erlang_server_openssh_client_pulic_key_dsa.html
+=started       2011-12-16 19:04:57
+=ended         2011-12-16 19:05:48
+=result        failed: {suite_failed,"Did not receive answer"}, [{ssh_to_openssh_SUITE,
+                                                                  erlang_server_openssh_client_pulic_key_dsa,
+                                                                  401},
+                                                                 {test_server,
+                                                                  ts_tc,1635},
+                                                                 {test_server,
+                                                                  run_test_case_eval1,
+                                                                  1182},
+                                                                 {test_server,
+                                                                  run_test_case_eval,
+                                                                  1123}]
+=== *** FAILED *** test case 53 of 54
+=case          ssh_to_openssh_SUITE:erlang_client_openssh_server_password
+=logfile       ssh_to_openssh_suite.erlang_client_openssh_server_password.html
+=started       2011-12-16 19:05:48
+=ended         2011-12-16 19:05:52
+=result        ok
+=elapsed       4.253404
+=case          ssh_to_openssh_SUITE:end_per_suite
+=logfile       ssh_to_openssh_suite.end_per_suite.html
+=started       2011-12-16 19:05:52
+=ended         2011-12-16 19:05:52
+=result        ok
+=elapsed       2.66e-4
+=group_time    1968.971s
+=== TEST COMPLETE, 25 ok, 12 failed, 17 skipped of 54 test cases
+
+=finished      2011-12-16 19:05:52
+=failed        12
+=successful    25
+=user_skipped  1
+=auto_skipped  16
