@@ -74,7 +74,6 @@ public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImp
             parsed_result.addChild(res);
             
         }
-        
         printSummary(parsed_result, tl);
         return parsed_result;
         
@@ -178,7 +177,7 @@ public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImp
     }
 
     
-  
+   
 
  
 }

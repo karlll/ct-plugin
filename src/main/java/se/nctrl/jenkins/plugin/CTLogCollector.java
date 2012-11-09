@@ -5,7 +5,9 @@ import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.model.AbstractProject;
+import hudson.model.Action;
 import hudson.model.JobProperty;
+import hudson.model.Project;
 import hudson.model.Result;
 import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
@@ -59,12 +61,15 @@ public class CTLogCollector extends Recorder {
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         
            CTResultParser log_p = new CTResultParser();
-            CTResult res = (CTResult) log_p.parse(log_path, false, build, launcher, listener);
+           CTResult res = (CTResult) log_p.parse(log_path, false, build, launcher, listener);
             
             if (!res.isPassed())
             {
                 build.setResult(Result.UNSTABLE);
             }
+            
+            CTResultAction res_action = new CTResultAction(build,res,listener);
+            build.addAction(res_action);
             return true;
     }
 
@@ -76,10 +81,23 @@ public class CTLogCollector extends Recorder {
         return (DescriptorImpl)super.getDescriptor();
     }
 
+    
     public BuildStepMonitor getRequiredMonitorService() {
         return BuildStepMonitor.STEP;
     }
 
+  
+    @Override
+    public Action getProjectAction(AbstractProject<?, ?> project) {
+        //return new CTResultAction(project.getLastBuild());
+        return null;
+    }
+    
+   
+    
+
+    
+    
     /**
      * Descriptor for {@link HelloWorldBuilder}. Used as a singleton.
      * The class is marked as public so that it can be accessed from views.
