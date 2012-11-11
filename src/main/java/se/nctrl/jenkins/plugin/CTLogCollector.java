@@ -70,6 +70,7 @@ public class CTLogCollector extends Recorder {
             
             CTResultAction res_action = new CTResultAction(build,res,listener);
             build.addAction(res_action);
+            
             return true;
     }
 

@@ -87,6 +87,7 @@ public class CTLogParserTest {
     @Before
     public void setUp() {
   
+    
     Logger ctlp_logger = Logger.getLogger(CTLogParser.class.getName());
     Handler ctlp_handler = new ConsoleHandler(); 
  
@@ -95,22 +96,14 @@ public class CTLogParserTest {
     ctlp_logger.setLevel(Level.ALL);
     Formatter f = new LogFormatter();
     ctlp_handler.setFormatter(f);
-    
+   
     }
     
     @After
     public void tearDown() {
     }
 
-    @Test
-    public void testFilpath() {
-        File b = new File("/home/karl/tmp/");
-        LinkedList<File> f = (LinkedList<File>) FileUtils.listFiles(b,new aFF(), TrueFileFilter.INSTANCE);
-        for ( File i : f)
-        {
-            System.out.println(" Item = " + i.toString());
-        }
-    }
+
     
     @Test
     public void testParse() {

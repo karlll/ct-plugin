@@ -16,6 +16,8 @@ import java.util.Iterator;
  */
 public class CTResult  extends TestResult{
 
+    private static final long serialVersionUID = 1L;
+    
     private AbstractBuild<?, ?> builder;
     private TestObject parent;
     private Collection<CTResult> children;
@@ -44,6 +46,10 @@ public class CTResult  extends TestResult{
     private int auto_skipped;
     private String group_props;
    
+  
+    
+    
+    
     
     public AbstractBuild<?, ?> getBuilder() {
         return builder;
@@ -61,8 +67,17 @@ public class CTResult  extends TestResult{
         this.children = children;
     }
 
+
+    
+    //------------------------------------------------------------------------
+    //
+    // Fields parsed from log file, getters & setters
+    //
+    //------------------------------------------------------------------------
+    
+    
     public int getCases() {
-        return cases;
+         return cases;
     }
 
     public void setCases(int cases) {
@@ -157,10 +172,7 @@ public class CTResult  extends TestResult{
         this.ended = ended;
     }
 
-    public int getResult() {
-        return result;
-    }
-
+ 
     public void setResult(int result) {
         this.result = result;
     }
@@ -197,16 +209,18 @@ public class CTResult  extends TestResult{
         this.finished = finished;
     }
 
-    public int getFailed() {
-        return failed;
+   public int getFailed() {
+      return failed;
     }
 
     public void setFailed(int failed) {
         this.failed = failed;
     }
 
+   
     public int getSuccessful() {
         return successful;
+
     }
 
     public void setSuccessful(int successful) {
@@ -215,6 +229,7 @@ public class CTResult  extends TestResult{
 
     public int getUser_skipped() {
         return user_skipped;
+
     }
 
     public void setUser_skipped(int user_skipped) {
@@ -223,6 +238,7 @@ public class CTResult  extends TestResult{
 
     public int getAuto_skipped() {
         return auto_skipped;
+
     }
 
     public void setAuto_skipped(int auto_skipped) {
@@ -238,10 +254,139 @@ public class CTResult  extends TestResult{
     }
 
    
+  
+    //------------------------------------------------------------------------
+    
+    
+    public int getResult() {
+        if (hasChildren()) {
+            int totalPassed = 0;
+            int totalSkipped = 0;
+            int totalFailed = 0;
+
+            for (CTResult r : this.children) {
+                switch (r.getResult()) {
+                    case 0:
+                        totalFailed = totalFailed + 1;
+                        break;
+                    case 1:
+                        totalPassed = totalPassed + 1;
+                        break;
+                    case 2:
+                        totalSkipped = totalSkipped + 1;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            if (totalFailed > 0) {
+                return 0; // failed
+            } else if (totalFailed == 0 && totalSkipped > 0 && totalPassed == 0) {
+                return 2;
+            } // skipped
+            else if (totalFailed == 0 && totalSkipped == 0 && totalPassed > 0) {
+                return 1;
+            } // passed
+            else {
+                return -1;
+            } // error / unknown
+
+        } else {
+            return result;
+        }
+
+
+    }
+
+    
+    
+      /**
+     * The total number of test cases including results from children
+     * @return the number of test cases
+     */
+    public int getTotalCases() {
+        if (hasChildren()) {
+            int totalCases = 0;
+            for (CTResult r : this.children)
+            {
+                totalCases = totalCases + r.getTotalCases();
+            }
+            return totalCases;
+        } 
+        else { return 1; } // no children
+    }
+
+ 
+    // recursively count a certain result
+    private int countTotalResult(int res) {
+        if (hasChildren()) {
+            int total = 0;
+            for (CTResult r : this.children)
+            {
+                total = total + r.countTotalResult(res);
+            }
+            return total;
+        } 
+        else { return (result==res ? 1 : 0); } // no children
+    
+    }
+    /**
+     * The total number of failed test cases including results from children
+     * @return the number of failed test cases
+     */
+    public int getTotalFailedCases() {
+        if (hasChildren()) {
+            int totalFailedCases = 0;
+            for (CTResult r : this.children)
+            {
+                totalFailedCases = totalFailedCases + r.getTotalFailedCases();
+            }
+            return totalFailedCases;
+        } 
+        else { return (result==0 ? 1 : 0); } // no children
+    }
+    
+  
+     /**
+     * The total number of passed test cases including results from children
+     * @return the number of passed test cases
+     */
+    public int getTotalPassedCases() {
+        if (hasChildren()) {
+            int totalPassedCases = 0;
+            for (CTResult r : this.children)
+            {
+                totalPassedCases = totalPassedCases + r.getTotalPassedCases();
+            }
+            return totalPassedCases;
+        } 
+        else { return (result==1 ? 1 : 0); } // no children
+    }
+ 
+        /**
+     * The total number of skipped test cases, including results from children
+     * @return the number of skipped test cases
+     */
+    public int getTotalSkippedCases() {
+        if (hasChildren()) {
+            int totalSkippedCases = 0;
+            for (CTResult r : this.children)
+            {
+                totalSkippedCases = totalSkippedCases + r.getTotalSkippedCases();
+            }
+            return totalSkippedCases;
+        } 
+        else { return (result==2 ? 1 : 0); } // no children
+    }
+ 
+    
+    
     
     private boolean hasChildren() {
         if (this.children != null) {
-            return this.children.isEmpty();
+            return !this.children.isEmpty();
         } else {
             return false;
         }
@@ -256,8 +401,9 @@ public class CTResult  extends TestResult{
         this.children.add(child);
         child.setParent(this);
     }
+  
     
-    public CTResult() {
+    private CTResult() {
         
         this.builder = null; // TODO : set this?
         this.children = null;
@@ -331,7 +477,7 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 
     @Override
     public Result getBuildResult() {
-        switch (this.result) {
+        switch (this.getResult()) {
             case 0:
                 return Result.UNSTABLE;
             case 1:
@@ -365,14 +511,15 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 
     @Override
     public int getFailCount() {
-        return this.failed;
+        return this.getTotalFailedCases();
     }
 
+    /*
     @Override
     public int getFailedSince() {
         return 0;
     }
-
+*/
     //@Override
     //public  Run<?,?>	getFailedSinceRun()  {return null;}
     
@@ -386,7 +533,7 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 
     @Override
     public int getPassCount() {
-        return this.successful;
+        return this.getTotalPassedCases();
     }
 
     @Override
@@ -397,14 +544,21 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 
     @Override
     public TestResult getPreviousResult() {
-        return null;
+        return (TestResult)this.builder.getPreviousBuild().getAction(CTResultAction.class).getResult();
     }
 
     @Override
     public int getSkipCount() {
-        return this.auto_skipped + this.user_skipped;
+        
+        return this.getTotalSkippedCases();
     }
 
+    @Override
+    public int getTotalCount() {
+        
+        return this.getTotalCases();
+    }
+    
     @Override
     public Collection<? extends TestResult> getSkippedTests() {
         return filterChildrenByResult(2);
@@ -427,7 +581,7 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 
     @Override
     public boolean isPassed() {
-        return this.result == 1;
+        return this.getResult() == 1;
     }
  
     //@Override
@@ -435,6 +589,12 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 
     //@Override
     //public void	tally()  {}
-
+    
+    
+    @Override
+    public String getName()
+    { return this.case_name;}
+    
+    
     
 }

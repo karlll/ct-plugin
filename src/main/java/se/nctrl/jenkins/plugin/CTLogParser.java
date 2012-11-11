@@ -169,6 +169,7 @@ public class CTLogParser {
 
                 if (this.parsing_child) {
                     this.tr_root.addChild(this.tr_current_child);
+                    
                 }
 
                 logger.log(Level.FINE, "Creating new child = {0}", value);
@@ -243,7 +244,7 @@ public class CTLogParser {
                 logger.log(Level.FINE, "Set elapsed to {0}", elapsed);
                 this.tr_root.setElapsed(elapsed); 
                 }  else if (!this.parsing_child) {
-                    logger.log(Level.SEVERE, "Unexpected result-field.");
+                    logger.log(Level.SEVERE, "Unexpected elapsed-field.");
                 }
                 break;
 
