@@ -16,7 +16,12 @@ import java.util.Iterator;
  */
 public class CTResult  extends TestResult{
 
+ 
+   
     private static final long serialVersionUID = 1L;
+    
+ 
+    
     
     private AbstractBuild<?, ?> builder;
     private TestObject parent;

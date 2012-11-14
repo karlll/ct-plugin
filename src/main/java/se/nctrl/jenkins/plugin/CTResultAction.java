@@ -12,6 +12,8 @@ import hudson.tasks.test.AbstractTestResultAction;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import javax.servlet.ServletException;
 import org.kohsuke.stapler.StaplerRequest;
@@ -64,11 +66,17 @@ public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
         return viewURL;
     }
 
-    /*
-    @Override
-    public List<CaseResult> getFailedTests() {
-        return (List<CaseResult>) this.result.getFailedTests();
+    public static String resultToText(int res)
+    {
+        switch (res)
+        {
+            case 0: return "Failed";
+            case 1: return "Passed";
+            case 2: return "Skipped";
+            default: return "Error";
+        }
     }
-*/
+    
+   
     
 }
