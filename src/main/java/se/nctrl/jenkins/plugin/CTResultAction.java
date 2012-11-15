@@ -41,6 +41,9 @@ public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
         return this.result.getTotalFailedCases();
     }
 
+    public int getPassCount() {
+        return this.result.getTotalPassedCases();
+    }
     @Override
     public int getTotalCount() {
         return this.result.getTotalCases(); 
