@@ -1,31 +1,18 @@
 package se.nctrl.jenkins.plugin;
+
 import hudson.AbortException;
-import hudson.Launcher;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.FilePath.FileCallable;
+import hudson.Launcher;
 import hudson.Util;
-import hudson.util.FormValidation;
 import hudson.model.AbstractBuild;
-import hudson.model.BuildListener;
-import hudson.model.AbstractProject;
 import hudson.model.TaskListener;
 import hudson.remoting.VirtualChannel;
-import hudson.tasks.Builder;
-import hudson.tasks.BuildStepDescriptor;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.QueryParameter;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
-import hudson.tasks.test.TabulatedResult;
-import hudson.tasks.test.TestObject;
 import hudson.tasks.test.TestResult;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -38,7 +25,8 @@ public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImp
 
     private AbstractBuild build;
     private static final String logname = "suite.log";
-    
+
+  
     private class FF implements IOFileFilter {
 
         

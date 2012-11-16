@@ -1,23 +1,10 @@
 
 package se.nctrl.jenkins.plugin;
 
-import hudson.FilePath;
+
 import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
-import hudson.model.Action;
 import hudson.model.BuildListener;
-import hudson.model.DirectoryBrowserSupport;
-import hudson.tasks.junit.CaseResult;
 import hudson.tasks.test.AbstractTestResultAction;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import javax.servlet.ServletException;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
 
 /**
  *
@@ -33,6 +20,7 @@ public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
         super(owner);
         this.result = result;
         this.bl = bl;
+        
         
     }
 

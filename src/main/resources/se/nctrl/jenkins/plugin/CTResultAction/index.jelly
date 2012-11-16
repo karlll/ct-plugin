@@ -12,12 +12,34 @@
         padding-top: 60px;
         padding-bottom: 40px;
       }
+      .sorting {
+      
+      cursor: pointer;
+      }
       .sorting_asc {
       
-      *cursor: hand;
+      cursor: pointer;
       }
+
+      .sorting_desc {
+      
+      cursor: pointer;
+      }
+
       .dataTables_filter {
     float: right;
+    }
+
+    .label-success, .badge-success {
+    background-color: #14D100;
+    }    
+
+    .label-important, .badge-important {
+    background-color: #FF2300;
+    }    
+
+    .label-warning, .badge-warning {
+    background-color: #FFC200;
     }    
 
       }
@@ -42,7 +64,7 @@
 <script type="text/javascript">
 
 <![CDATA[
-// foobar
+
 $(document).ready(function () {
                 
 
@@ -63,18 +85,13 @@ function filterGlobal (str)
 }
 
 
-                var r = Raphael("result_chart");
-                var passed_col = "#98ED00";
-                var failed_col = "#FFA500";
-                var skipped_col = "#D0006E";
+                var r = Raphael("result_chart",380,250);
+                var passed_col = "#14D100";
+                var failed_col = "#FFC200";
+                var skipped_col = "#FF2300";
 
-
-
-               // num_passed = 100;
-               // num_failed = 13;
-               // num_skipped = 43;
                
-                pie = r.piechart(150, 150, 100, 
+                pie = r.piechart(125, 125, 100, 
                         [num_passed,num_failed,num_skipped],
                         { 
                           colors: [passed_col,failed_col,skipped_col], 
@@ -86,7 +103,11 @@ function filterGlobal (str)
                 
 
 
-                $('.table').dataTable( { "sDom": "<'row-fluid'<'span6'T><'span6'<'control-group'<'controls'f>>>r>t<'row-fluid'<'span6'i><'span6 pull-right'p>>"});
+                $('.table').dataTable( { 
+                  "iDisplayLength" : 50,
+                  "sDom" : "<'row-fluid'<'span6'T><'span6'<'control-group'<'controls'f>>>r>t<'row-fluid'<'span6'i><'span6 pull-right'p>>",
+                  "aaSorting": [[2,'asc']]
+                });
                 $('.dataTables_wrapper').removeClass("form-inline");
                 $('.dataTables_filter > label').contents().filter(function() { return this.nodeType == 3; }).remove(); // Remove label text
                 $('.dataTables_filter > label > input').unwrap();
@@ -95,10 +116,29 @@ function filterGlobal (str)
                 $('.dataTables_filter > input').attr('id','inputIcon').attr('placeholder','filter').addClass("span8");
 
                 // Global filter
-                $('#gfilter_all > a').bind('click',function(event){$("[id^=gfilter]").removeClass("active");$('#gfilter_all').addClass("active"); filterGlobal("")});
-                $('#gfilter_failed > a').bind('click',function(event){$("[id^=gfilter]").removeClass("active");$('#gfilter_failed').addClass("active");  filterGlobal("Failed")});
-                $('#gfilter_passed > a').bind('click',function(event){$("[id^=gfilter]").removeClass("active");$('#gfilter_passed').addClass("active");  filterGlobal("Passed")});
-                $('#gfilter_skipped > a').bind('click',function(event){$("[id^=gfilter]").removeClass("active");$('#gfilter_skipped').addClass("active"); filterGlobal("Skipped")});
+                $('#gfilter_all > a').bind('click',function(event){ event.preventDefault(); $("[id^=gfilter]").removeClass("active");$('#gfilter_all').addClass("active"); filterGlobal("")});
+                $('#gfilter_failed > a').bind('click',function(event){ event.preventDefault(); $("[id^=gfilter]").removeClass("active");$('#gfilter_failed').addClass("active");  filterGlobal("Failed")});
+                $('#gfilter_passed > a').bind('click',function(event){ event.preventDefault();$("[id^=gfilter]").removeClass("active");$('#gfilter_passed').addClass("active");  filterGlobal("Passed")});
+                $('#gfilter_skipped > a').bind('click',function(event){ event.preventDefault();$("[id^=gfilter]").removeClass("active");$('#gfilter_skipped').addClass("active"); filterGlobal("Skipped")});
+
+
+                // Navbar
+                $("#nav-back").click(function() { history.back(); return false; });
+
+                // Show sorting order in table headers
+                $("th[class^=sorting]").bind('click',function(event)
+                  {
+                      var up = "icon-arrow-up";
+                      var down = "icon-arrow-down"
+                      var i = $(event.target).children('i');
+
+                      
+                      $(i).toggleClass(up,$(event.target).hasClass("sorting_asc")).toggleClass(down,$(event.target).hasClass("sorting_desc"));
+                      $("th[class=sorting] > i").toggleClass(up,false).toggleClass(down,false);
+                  } 
+                  );
+
+
  ]]>
                 });
 </script>
@@ -121,10 +161,11 @@ function filterGlobal (str)
           <a class="brand" href="#">CT Results</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="#"><i class="icon-chevron-left icon-white"></i> Go back</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-                             
+              <li><a href="#" id="nav-back"><i class="icon-chevron-left icon-white"></i> Go back</a></li>
+              <!--
+              <li><a href="#">Project</a></li>
+              <li><a href="#">Export</a></li>
+               -->              
             </ul>
 
           </div><!--/.nav-collapse -->
@@ -134,13 +175,11 @@ function filterGlobal (str)
 
     <div class="container">
 
-
-
       <!-- Summary -->
       <div class="well small">
         
         <div class="row">
-          <div class="span5">
+            <div class="span5">
             <div id="result_chart"></div>
           </div>
           <div class="span5">
@@ -148,18 +187,19 @@ function filterGlobal (str)
           <hr />
           <dl class="dl-horizontal">
           <dt>Number of suites</dt>
-          <dd>2</dd>
+          <dd>${it.result.children.size()}</dd>
           <dt>Number of test cases</dt>
-          <dd>200</dd>
+          <dd>${it.totalCount}</dd>
           <dt>Passed test cases</dt>
-          <dd>200</dd>
+          <dd>${it.passCount}</dd>
           <dt>Failed test cases</dt>
-          <dd>200</dd>
+          <dd>${it.failCount}</dd>
           <dt>Skipped test cases</dt>
-          <dd>200</dd>
+          <dd>${it.skipCount}</dd>
           </dl>
           </p>
           </div>
+
         </div>
       </div>
       <!-- Summary -->
@@ -203,9 +243,9 @@ function filterGlobal (str)
   
   <thead>
     <tr>
-      <th>Result</th>
-      <th>Test case</th>
-      <th>Started</th>
+      <th>Result <i class="icon-empty"></i></th>
+      <th>Test case <i class="icon-empty"></i></th>
+      <th>Started <i class="icon-empty icon-arrow-up"></i></th>
     </tr>
   </thead>
   <tbody>

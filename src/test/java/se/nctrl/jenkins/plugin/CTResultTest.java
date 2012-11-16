@@ -1,15 +1,12 @@
 
 package se.nctrl.jenkins.plugin;
 
-import hudson.model.AbstractBuild;
-import hudson.tasks.test.TestObject;
-import hudson.tasks.test.TestResult;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
