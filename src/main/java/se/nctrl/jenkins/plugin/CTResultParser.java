@@ -57,7 +57,7 @@ public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImp
 
         for (File f : list) {
             tl.getLogger().println("Reading log file  " + f.toString());
-            CTLogParser p =  new CTLogParser(this.build);
+            CTSuiteLogParser p =  new CTSuiteLogParser(this.build);
             CTResult res = p.parse(f);
             parsed_result.addChild(res);
             

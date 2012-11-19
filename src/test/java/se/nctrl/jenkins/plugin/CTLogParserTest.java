@@ -79,7 +79,7 @@ public class CTLogParserTest {
     public void setUp() {
   
     
-    Logger ctlp_logger = Logger.getLogger(CTLogParser.class.getName());
+    Logger ctlp_logger = Logger.getLogger(CTSuiteLogParser.class.getName());
     Handler ctlp_handler = new ConsoleHandler(); 
  
     ctlp_handler.setLevel(Level.ALL);
@@ -99,7 +99,7 @@ public class CTLogParserTest {
     @Test
     public void testParse() {
 
-        CTLogParser p = new CTLogParser(null);
+        CTSuiteLogParser p = new CTSuiteLogParser(null);
         URL u = this.getClass().getResource("/suite2.log");
         String f = u.getFile();
         
