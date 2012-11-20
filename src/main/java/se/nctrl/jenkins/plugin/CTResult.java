@@ -8,6 +8,7 @@ import hudson.tasks.test.TestResult;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -458,6 +459,12 @@ public class CTResult  extends TestResult{
         } 
     
     }
+
+public HashMap<String, Collection<CTResult>> getSuites()
+{
+    return null;
+}
+    
     
 private Collection<? extends TestResult> filterChildrenByResult( int result)
 {
