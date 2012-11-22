@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -452,7 +453,7 @@ public class CTResult  extends TestResult{
                 if (this.started != null) {
                     displayName += " @ " + this.started.toString();
                 }
-                return "CT Suite";
+                return displayName;
             } else {
                 return "Unknown";
             }
@@ -460,9 +461,56 @@ public class CTResult  extends TestResult{
     
     }
 
-public HashMap<String, Collection<CTResult>> getSuites()
+    private String getSuiteName()
+    {
+        if (case_name != null) { 
+            String suite_name = this.case_name.split(":")[0];
+            if (suite_name.length() > 0 ) {
+                return suite_name;
+            } else {
+                return "Unknown";
+            }
+        } else {
+            return "Unknown";
+        }
+    }
+    
+    
+public Map<String, Collection<CTResult>> getSuites()
 {
-    return null;
+    Map<String,Collection<CTResult>> suites = new HashMap<String,Collection<CTResult>>();
+    
+    if (hasChildren())
+    {
+        
+        for(CTResult r : this.children) {
+            
+            Map<String,Collection<CTResult>> c_suites = r.getSuites();
+            
+            for ( Map.Entry<String,Collection<CTResult>> e : r.getSuites().entrySet())
+            {
+                Collection<CTResult> s_val = suites.get(e.getKey());
+                if ( s_val != null ) {
+                    
+                    s_val.addAll(e.getValue());
+                    
+                } else {
+                
+                    suites.put(e.getKey(), e.getValue());
+                
+                }
+            }
+            
+        }
+        
+    } else {
+       
+        ArrayList<CTResult> l = new ArrayList<CTResult>();
+        l.add(this);
+        suites.put(getSuiteName(), l);
+        
+    }
+    return suites;
 }
     
     

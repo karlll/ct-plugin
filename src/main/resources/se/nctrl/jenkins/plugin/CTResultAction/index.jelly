@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
 
+<!--
+<st:adjunct includes="org.kohsuke.stapler.framework.prototype.prototype"/>
+<st:adjunct includes="org.kohsuke.stapler.bind"/>
+-->
 
 <html>   
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<!--
+<script type="text/javascript" charset="utf-8">                
+                var foo = <st:bind value="${it.report_layout}" />;
+              
+                jQuery("#ajaxb").bind('click',function(event) { 
+                    foo.ajaxTest(function(r) { 
+                                    alert(r.responseObject()); 
+                                  }
+                                ); 
+                  }
+                );
+              
+</script>
+-->
+
+
 <link href="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/bootstrap/css/bootstrap.min.css"  rel="stylesheet" media="screen" />
    <style type="text/css">
       body {
@@ -135,15 +157,15 @@ function filterGlobal (str)
                       
                       $(i).toggleClass(up,$(event.target).hasClass("sorting_asc")).toggleClass(down,$(event.target).hasClass("sorting_desc"));
                       $("th[class=sorting] > i").toggleClass(up,false).toggleClass(down,false);
-                  } 
+                  }
+
                   );
 
-
- ]]>
+ 
+]]> 
                 });
 </script>
-                
-    
+
 
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/datatables/dataTables.bootstrap.js" type="text/javascript" charset="utf-8"></script>
 
@@ -197,6 +219,9 @@ function filterGlobal (str)
           <dt>Skipped test cases</dt>
           <dd>${it.skipCount}</dd>
           </dl>
+          
+           <!-- <button class="btn btn-large btn-primary" type="button" id="ajaxb">Test</button> -->
+
           </p>
           </div>
 
@@ -220,26 +245,26 @@ function filterGlobal (str)
 
 
 
-      <j:set var="s_num" value="0" />
-      <j:forEach var="suites" items="${it.result.children}">
-        
+      <!--<j:set var="s_num" value="0" />-->
+      <j:forEach var="table" items="${it.report_layout.tables}">
+      <!-- <j:forEach var="suites" items="${it.result.suites}">  -->
 
 
       <div class="row">
         <div class="span12">
-          <p class="lead">${suites.displayName}<br />
-          <j:if test="${suites.passCount != 0}">
-          <span class="badge badge-success">${suites.passCount}</span>
+          <p class="lead">${table.label}<br />
+          <j:if test="${table.passCount != 0}">
+          <span class="badge badge-success">${table.passCount}</span>
           </j:if>
-          <j:if test="${suites.failCount != 0}">
-          &#160;<span class="badge badge-important">${suites.failCount}</span>
+          <j:if test="${table.failCount != 0}">
+          &#160;<span class="badge badge-important">${table.failCount}</span>
           </j:if>
-          <j:if test="${suites.skipCount != 0}">
-          &#160;<span class="badge badge-warning">${suites.skipCount}</span></j:if></p>
+          <j:if test="${table.skipCount != 0}">
+          &#160;<span class="badge badge-warning">${table.skipCount}</span></j:if></p>
           
           <hr />
 
-         <table class="table table-striped" id="dt_${s_num}">
+         <table class="table table-striped" id="dt_${table.table_id}">
   
   <thead>
     <tr>
@@ -251,22 +276,22 @@ function filterGlobal (str)
   <tbody>
 
 <!-- cases -->
-        <j:forEach var="cases" items="${suites.children}">
+        <j:forEach var="row" items="${table.rows}">
     <tr>
       <td>
-          <j:if test="${cases.result == 0}">
+          <j:if test="${row.result == 0}">
           <span class="label label-important">Failed</span>
           </j:if>
-          <j:if test="${cases.result == 1}">
+          <j:if test="${row.result == 1}">
           <span class="label label-success">Passed</span>
           </j:if>
-          <j:if test="${cases.result == 2}">
+          <j:if test="${row.result == 2}">
           <span class="label label-warning">Skipped</span>
           </j:if>
 
       </td>
-      <td>${cases.displayName}</td>
-      <td>${cases.started.toString()}</td>
+      <td>${row.displayName}</td>
+      <td>${row.started.toString()}</td>
     </tr>
         </j:forEach>
 <!-- cases -->
@@ -277,8 +302,8 @@ function filterGlobal (str)
       </div>
       <!-- Content -->
 
-          <j:set var="s_num" value="${s_num + 1}" />
-      </j:forEach> <!-- suites -->
+          
+      </j:forEach> <!-- tables -->
 
       <hr />
 

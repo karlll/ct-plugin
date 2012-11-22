@@ -15,15 +15,22 @@ public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
     private CTResult result = null;
     private transient BuildListener bl;
     private static final String viewURL = "ctResults";
-    
+    private transient CTReportLayout report_layout = null;
+
     public CTResultAction(AbstractBuild owner, CTResult result, BuildListener bl) {
         super(owner);
         this.result = result;
         this.bl = bl;
+        this.report_layout = new CTReportLayout(this.result);
         
         
     }
 
+    
+    public CTReportLayout getReport_layout() {
+        return report_layout;
+    }
+    
     @Override
     public int getFailCount() {
         return this.result.getTotalFailedCases();
