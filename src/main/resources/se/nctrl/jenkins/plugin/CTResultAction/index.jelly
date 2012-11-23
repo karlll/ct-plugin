@@ -2,20 +2,21 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
 
-<!--
+
 <st:adjunct includes="org.kohsuke.stapler.framework.prototype.prototype"/>
 <st:adjunct includes="org.kohsuke.stapler.bind"/>
--->
+
 
 <html>   
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-<!--
+
 <script type="text/javascript" charset="utf-8">                
                 var foo = <st:bind value="${it.report_layout}" />;
-              
+               
+                /*
                 jQuery("#ajaxb").bind('click',function(event) { 
                     foo.ajaxTest(function(r) { 
                                     alert(r.responseObject()); 
@@ -23,9 +24,9 @@
                                 ); 
                   }
                 );
+                */
               
 </script>
--->
 
 
 <link href="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/bootstrap/css/bootstrap.min.css"  rel="stylesheet" media="screen" />
@@ -67,7 +68,10 @@
       }
     </style>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/jquery/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/jquery/jq-no_conflict.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/datatables/jquery.dataTables.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/datatables/dataTables.bootstrap-no_conflict.js" type="text/javascript" charset="utf-8"></script>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/raphael-min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.raphael-min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.bar-min.js" type="text/javascript" charset="utf-8"></script>
@@ -87,17 +91,19 @@
 
 <![CDATA[
 
-$(document).ready(function () {
+
+$j(document).ready(function () {
                 
+
 
 function filterGlobal (str)
 {
   
       
-      for (var  i = 0;i < $('.dataTable').size(); i++)
+      for (var  i = 0;i < $j('.dataTable').size(); i++)
       {
         
-        $("#dt_"+i).dataTable().fnFilter(
+        $j("#dt_"+i).dataTable().fnFilter(
           str,
           null,
           true,
@@ -125,41 +131,67 @@ function filterGlobal (str)
                 
 
 
-                $('.table').dataTable( { 
+                $j('.table').dataTable( { 
                   "iDisplayLength" : 50,
                   "sDom" : "<'row-fluid'<'span6'T><'span6'<'control-group'<'controls'f>>>r>t<'row-fluid'<'span6'i><'span6 pull-right'p>>",
                   "aaSorting": [[2,'asc']]
                 });
-                $('.dataTables_wrapper').removeClass("form-inline");
-                $('.dataTables_filter > label').contents().filter(function() { return this.nodeType == 3; }).remove(); // Remove label text
-                $('.dataTables_filter > label > input').unwrap();
-                $('.dataTables_filter').addClass("input-prepend");
-                $('.dataTables_filter > input').before("<span class='add-on'><i class='icon-filter'></i></span>");
-                $('.dataTables_filter > input').attr('id','inputIcon').attr('placeholder','filter').addClass("span8");
+                $j('.dataTables_wrapper').removeClass("form-inline");
+                $j('.dataTables_filter > label').contents().filter(function() { return this.nodeType == 3; }).remove(); // Remove label text
+                $j('.dataTables_filter > label > input').unwrap();
+                $j('.dataTables_filter').addClass("input-prepend");
+                $j('.dataTables_filter > input').before("<span class='add-on'><i class='icon-filter'></i></span>");
+                $j('.dataTables_filter > input').attr('id','inputIcon').attr('placeholder','filter').addClass("span8");
 
                 // Global filter
-                $('#gfilter_all > a').bind('click',function(event){ event.preventDefault(); $("[id^=gfilter]").removeClass("active");$('#gfilter_all').addClass("active"); filterGlobal("")});
-                $('#gfilter_failed > a').bind('click',function(event){ event.preventDefault(); $("[id^=gfilter]").removeClass("active");$('#gfilter_failed').addClass("active");  filterGlobal("Failed")});
-                $('#gfilter_passed > a').bind('click',function(event){ event.preventDefault();$("[id^=gfilter]").removeClass("active");$('#gfilter_passed').addClass("active");  filterGlobal("Passed")});
-                $('#gfilter_skipped > a').bind('click',function(event){ event.preventDefault();$("[id^=gfilter]").removeClass("active");$('#gfilter_skipped').addClass("active"); filterGlobal("Skipped")});
+                $j('#gfilter_all > a').bind('click',function(event){ event.preventDefault(); $j("[id^=gfilter]").removeClass("active");$j('#gfilter_all').addClass("active"); filterGlobal("")});
+                $j('#gfilter_failed > a').bind('click',function(event){ event.preventDefault(); $j("[id^=gfilter]").removeClass("active");$j('#gfilter_failed').addClass("active");  filterGlobal("Failed")});
+                $j('#gfilter_passed > a').bind('click',function(event){ event.preventDefault();$j("[id^=gfilter]").removeClass("active");$j('#gfilter_passed').addClass("active");  filterGlobal("Passed")});
+                $j('#gfilter_skipped > a').bind('click',function(event){ event.preventDefault();$j("[id^=gfilter]").removeClass("active");$j('#gfilter_skipped').addClass("active"); filterGlobal("Skipped")});
 
 
                 // Navbar
-                $("#nav-back").click(function() { history.back(); return false; });
+                $j("#nav-back").click(function() { history.back(); return false; });
 
                 // Show sorting order in table headers
-                $("th[class^=sorting]").bind('click',function(event)
+                $j("th[class^=sorting]").bind('click',function(event)
                   {
                       var up = "icon-arrow-up";
                       var down = "icon-arrow-down"
-                      var i = $(event.target).children('i');
+                      var i = $j(event.target).children('i');
 
                       
-                      $(i).toggleClass(up,$(event.target).hasClass("sorting_asc")).toggleClass(down,$(event.target).hasClass("sorting_desc"));
-                      $("th[class=sorting] > i").toggleClass(up,false).toggleClass(down,false);
+                      $j(i).toggleClass(up,$j(event.target).hasClass("sorting_asc")).toggleClass(down,$j(event.target).hasClass("sorting_desc"));
+                      $j("th[class=sorting] > i").toggleClass(up,false).toggleClass(down,false);
                   }
 
                   );
+
+                  $j("#ajaxb").bind('click',function(event) { 
+                    foo.ajaxTest(function(r) { 
+                                    alert(r.responseObject()); 
+                                  }
+                                ); 
+                  });
+
+                  $j('[id^=c_]').bind('click',function(event) {
+
+                    
+                    var e_id = $j(event.target).attr("id");
+                    var box = $j("#box_" + e_id)
+                    if (!box.hasClass("loaded")) { box.addClass("loaded") }
+                    box.toggleClass("closed");
+
+                    box.toggle("slow");
+
+                    if (box.hasClass("closed"))
+                    {
+                      $j("#" + e_id).text("+")
+                    } else { $j("#" + e_id).text("-") }
+
+
+                  });
+                  
 
  
 ]]> 
@@ -167,7 +199,7 @@ function filterGlobal (str)
 </script>
 
 
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/datatables/dataTables.bootstrap.js" type="text/javascript" charset="utf-8"></script>
+
 
 </head>
  <body>
@@ -220,8 +252,8 @@ function filterGlobal (str)
           <dd>${it.skipCount}</dd>
           </dl>
           
-           <!-- <button class="btn btn-large btn-primary" type="button" id="ajaxb">Test</button> -->
-
+           <button class="btn btn-large btn-primary" type="button" id="ajaxb">Test</button>
+           
           </p>
           </div>
 
@@ -230,7 +262,10 @@ function filterGlobal (str)
       <!-- Summary -->
 
       <!-- Content -->
-      <div class="navbar">
+
+
+
+<div class="navbar">
   <div class="navbar-inner">
     <a class="brand" href="#">Filter</a>
     <ul class="nav">
@@ -245,14 +280,13 @@ function filterGlobal (str)
 
 
 
-      <!--<j:set var="s_num" value="0" />-->
-      <j:forEach var="table" items="${it.report_layout.tables}">
-      <!-- <j:forEach var="suites" items="${it.result.suites}">  -->
 
+      <j:forEach var="table" items="${it.report_layout.tables}">
 
       <div class="row">
         <div class="span12">
-          <p class="lead">${table.label}<br />
+          <p class="lead"><button class="btn btn-mini" type="button" id="c_${table.table_id}">-</button> ${table.label}
+            <!-- <br /> --> &#160;&#160;
           <j:if test="${table.passCount != 0}">
           <span class="badge badge-success">${table.passCount}</span>
           </j:if>
@@ -260,10 +294,10 @@ function filterGlobal (str)
           &#160;<span class="badge badge-important">${table.failCount}</span>
           </j:if>
           <j:if test="${table.skipCount != 0}">
-          &#160;<span class="badge badge-warning">${table.skipCount}</span></j:if></p>
+          &#160;<span class="badge badge-warning">${table.skipCount}</span></j:if>&#160;</p>
           
           <hr />
-
+         <div class="table_box" id="box_c_${table.table_id}"> 
          <table class="table table-striped" id="dt_${table.table_id}">
   
   <thead>
@@ -298,12 +332,15 @@ function filterGlobal (str)
 
   </tbody>
 </table> 
+</div> <!-- table_box -->
         </div>
-      </div>
-      <!-- Content -->
+      
+      
 
-          
+ </div> <!-- Content -->         
       </j:forEach> <!-- tables -->
+
+
 
       <hr />
 
