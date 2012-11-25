@@ -2,7 +2,9 @@ package se.nctrl.jenkins.plugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
+import net.sf.json.JSONObject;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 /**
@@ -20,6 +22,8 @@ public class CTReportLayout {
     
     private CTResult top_result;
     private Collection<CTReportTable> tables;
+    
+    
     
     
     public class CTReportTable {
@@ -85,6 +89,38 @@ public class CTReportLayout {
             return this.res;
         }
         
+        private Collection<JSONObject> getShortRows()
+        {
+            ArrayList<JSONObject> rows = new ArrayList<JSONObject>();
+            
+            for (CTResult r : this.res) 
+            {
+                JSONObject row = new JSONObject();
+                row.element("result", r.getResult());
+                row.element("started", r.getStarted().toString());
+                row.element("testcase",r.getName());
+                row.element("logfile",r.getLog_file());
+                rows.add(row);
+            }
+            
+            return rows;
+        }
+        
+        public JSONObject getJSON()
+        {
+            JSONObject ret = new JSONObject();
+            
+            ret.element("label", this.label);
+            ret.element("table_id", this.table_id);
+            ret.element("passed", this.passed);
+            ret.element("failed", this.failed);
+            ret.element("num_cases", this.numCases);
+            ret.element("skipped", this.skipped);
+            ret.element("short_rows", this.getShortRows());
+
+            return ret;
+        }
+        
        
         
     }
@@ -112,12 +148,6 @@ public class CTReportLayout {
     
     }
 
-     @JavaScriptMethod
-        public String ajaxTest()
-        {
-          return "Hullo";  
-        }
-
     public int getNum_tables() {
         return num_tables;
     }
@@ -141,5 +171,32 @@ public class CTReportLayout {
     public Collection<CTReportTable> getTables() {
         return tables;
     }
-
+    
+    public CTReportTable getTable( int table_id) 
+    {
+        // TODO: this.tables should be indexed
+        for (Iterator<CTReportTable> i = this.tables.iterator(); i.hasNext();)
+        {
+            if (i.next().getTable_id() == table_id)
+            {
+                return i.next();
+            }
+                     
+        }
+        
+        return null;
+    }
+    
+    @JavaScriptMethod
+    public JSONObject getJSONTable ( int table_id )
+    {
+        
+        
+        CTReportTable t = this.getTable(table_id);
+        
+        if (t != null) {
+            return t.getJSON();
+        } else { return null; }
+        
+    }
 }

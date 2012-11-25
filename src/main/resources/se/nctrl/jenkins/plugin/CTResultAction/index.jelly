@@ -14,18 +14,7 @@
 
 
 <script type="text/javascript" charset="utf-8">                
-                var foo = <st:bind value="${it.report_layout}" />;
-               
-                /*
-                jQuery("#ajaxb").bind('click',function(event) { 
-                    foo.ajaxTest(function(r) { 
-                                    alert(r.responseObject()); 
-                                  }
-                                ); 
-                  }
-                );
-                */
-              
+                var layout = <st:bind value="${it.report_layout}" />;
 </script>
 
 
@@ -168,7 +157,7 @@ function filterGlobal (str)
                   );
 
                   $j("#ajaxb").bind('click',function(event) { 
-                    foo.ajaxTest(function(r) { 
+                    layout.getJSONTable(1,function(r) { 
                                     alert(r.responseObject()); 
                                   }
                                 ); 
