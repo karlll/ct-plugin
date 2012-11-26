@@ -102,6 +102,13 @@ function filterGlobal (str)
 }
 
 
+function loadTable (table_obj, elem)
+{
+  //
+}
+
+
+
                 var r = Raphael("result_chart",380,250);
                 var passed_col = "#14D100";
                 var failed_col = "#FFC200";
@@ -158,7 +165,8 @@ function filterGlobal (str)
 
                   $j("#ajaxb").bind('click',function(event) { 
                     layout.getJSONTable(1,function(r) { 
-                                    alert(r.responseObject()); 
+                                    var tab = r.responseObject();
+                                    alert(r.responseObject()["failed"]); 
                                   }
                                 ); 
                   });
@@ -268,7 +276,21 @@ function filterGlobal (str)
 
 
 
-
+      <div class="row">
+        <div class="span12">
+          <p class="lead"><button class="btn btn-mini" type="button" id="c_99">-</button> test_SUITE
+            <!-- <br /> --> &#160;&#160;
+         
+          <span class="badge badge-success">0</span>
+          &#160;<span class="badge badge-important">0</span>
+          &#160;<span class="badge badge-warning">0</span>&#160;</p>
+          
+          <hr />
+          <div class="table_box" id="box_c_99">
+            <p>This is hidden</p>
+          </div> 
+      </div>
+      </div>
 
       <j:forEach var="table" items="${it.report_layout.tables}">
 
