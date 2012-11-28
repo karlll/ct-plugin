@@ -68,6 +68,7 @@
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.line-min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.line-min.js" type="text/javascript" charset="utf-8"></script>
 <script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.pie-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/spin/spin.min.js" type="text/javascript" charset="utf-8"></script>
 
 
 <script type="text/javascript">
@@ -104,9 +105,82 @@ function filterGlobal (str)
 
 function loadTable (table_obj, elem)
 {
-  //
+  //$j(elem).append("<table></table>")
+
+  $j.each(table_obj["short_rows"], function()
+    {$j(elem).append("<p>"+$(this)["testcase"]+"</p>");}
+    );
+
 }
 
+function toggle_box(box, e_id) // todo: fix
+{
+
+                      box.toggleClass("closed");
+
+                    //
+                    box.toggle("slow");  
+
+                    if (box.hasClass("closed"))
+                    {
+                      $j("#" + e_id).text("+")
+                    } else { $j("#" + e_id).text("-") }
+
+
+            
+  
+}
+function expand_table(event)
+{
+                    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 3, // The length of each line
+        width: 3, // The line thickness
+  radius: 10, // The radius of the inner circle
+  corners: 1, // Corner roundness (0..1)
+  rotate: 73, // The rotation offset
+  color: '#000', // #rgb or #rrggbb
+  speed: 1, // Rounds per second
+  trail: 64, // Afterglow percentage
+  shadow: true, // Whether to render a shadow
+  hwaccel: false, // Whether to use hardware acceleration
+  className: 'spinner', // The CSS class to assign to the spinner
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  top: 'auto', // Top position relative to parent in px
+  left: 'auto' // Left position relative to parent in px
+};
+
+
+                    
+                    
+                    var e_id = $j(event.target).attr("id");
+                    var box = $j("#box_" + e_id);
+                    var status = $j("#status_" + e_id);
+                    // not loaded, load table data before expansion
+                    if (!box.hasClass("loaded")) { 
+                        
+                      var table_data = null;  
+                      var table_id = 3;
+                      var spinner = new Spinner(opts).spin(status.get(0));
+
+
+                      layout.getJSONTable(table_id,function(r) { 
+                                    table_data = r.responseObject();
+                                    loadTable(table_data,box);
+                                    spinner.stop();
+
+                                    box.addClass("loaded") ;
+                                    toggle_box(box,e_id);
+                    
+                    } ); 
+
+                     } 
+                     else { toggle_box(box,e_id); } 
+                    
+                    // todo: 
+
+
+}
 
 
                 var r = Raphael("result_chart",380,250);
@@ -171,6 +245,7 @@ function loadTable (table_obj, elem)
                                 ); 
                   });
 
+                  /*
                   $j('[id^=c_]').bind('click',function(event) {
 
                     
@@ -188,7 +263,8 @@ function loadTable (table_obj, elem)
 
 
                   });
-                  
+                  */
+                  $j('[id^=c_99]').bind('click',expand_table);                  
 
  
 ]]> 
@@ -283,14 +359,16 @@ function loadTable (table_obj, elem)
          
           <span class="badge badge-success">0</span>
           &#160;<span class="badge badge-important">0</span>
-          &#160;<span class="badge badge-warning">0</span>&#160;</p>
+          &#160;<span class="badge badge-warning">0</span>
+          <div id="status_c_99"></div>
+
+          </p>
           
           <hr />
-          <div class="table_box" id="box_c_99">
+          <div class="table_box closed" id="box_c_99" style="display:none">
             <p>This is hidden</p>
           </div> 
-      </div>
-      </div>
+      </div></div>
 
       <j:forEach var="table" items="${it.report_layout.tables}">
 
@@ -298,14 +376,18 @@ function loadTable (table_obj, elem)
         <div class="span12">
           <p class="lead"><button class="btn btn-mini" type="button" id="c_${table.table_id}">-</button> ${table.label}
             <!-- <br /> --> &#160;&#160;
-          <j:if test="${table.passCount != 0}">
-          <span class="badge badge-success">${table.passCount}</span>
-          </j:if>
-          <j:if test="${table.failCount != 0}">
-          &#160;<span class="badge badge-important">${table.failCount}</span>
-          </j:if>
-          <j:if test="${table.skipCount != 0}">
-          &#160;<span class="badge badge-warning">${table.skipCount}</span></j:if>&#160;</p>
+          
+           <j:if test="${table.passCount != 0}">
+           <span class="badge badge-success">${table.passCount}</span>
+           </j:if>
+           <j:if test="${table.failCount != 0}">
+           &#160;<span class="badge badge-important">${table.failCount}</span>
+           </j:if>
+           <j:if test="${table.skipCount != 0}">
+           &#160;<span class="badge badge-warning">${table.skipCount}</span>
+          </j:if>&#160;
+          <div id="sum_c_${table.table_id}"></div>
+          </p>
           
           <hr />
          <div class="table_box" id="box_c_${table.table_id}"> 
@@ -356,7 +438,7 @@ function loadTable (table_obj, elem)
       <hr />
 
       <footer>
-        <p>Company 2012</p>
+        <p>Footer</p>
       </footer>
 
     </div> <!-- container -->
