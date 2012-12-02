@@ -84,191 +84,238 @@
 
 $j(document).ready(function () {
                 
+function filterGlobal(str) {
 
 
-function filterGlobal (str)
-{
-  
-      
-      for (var  i = 0;i < $j('.dataTable').size(); i++)
-      {
-        
-        $j("#dt_"+i).dataTable().fnFilter(
-          str,
-          null,
-          true,
-          true
-      );
-    }
+  /*
+  for(var i = 1; i <= $j('.dataTable').size(); i++) {
+
+    $j("#dt_" + i).dataTable().fnFilter(
+    str, null, true, true);
+  }*/
+$j('.dataTable').each(function() { $j(this).dataTable().fnFilter( str, null, true, true);  });
+
 }
 
+function initTable(elem) {
 
-function loadTable (table_obj, elem)
-{
-  //$j(elem).append("<table></table>")
+  
+  $j(elem).dataTable({
+    "iDisplayLength": 50,
+    "sDom": "<'row-fluid'<'span6'T><'span6'<'control-group'<'controls'f>>>r>t<'row-fluid'<'span6'i><'span6 pull-right'p>>",
+    "aaSorting": [
+      [2, 'asc']
+    ]
+  });
 
-  $j.each(table_obj["short_rows"], function()
-    {$j(elem).append("<p>"+$(this)["testcase"]+"</p>");}
-    );
+  var wrapper;
+  
+  if (elem.length == 1 ) { wrapper = "#" + $j(elem).parent().attr('id'); } // single or all tables
+  else { wrapper = ".dataTables_wrapper" }
+
+  
+
+  $j(wrapper).removeClass("form-inline");
+  $j(wrapper + " label").contents().filter(function() {
+    return this.nodeType == 3;
+  }).remove(); // Remove label text
+  $j(wrapper + " label > input").unwrap();
+  $j(wrapper + " .dataTables_filter").addClass("input-prepend");
+  $j(wrapper + " .dataTables_filter > input").before("<span class='add-on'><i class='icon-filter'></i></span>");
+  //$j(wrapper + " .dataTables_filter > input").attr('id', 'inputIcon').attr('placeholder', 'filter').addClass("span8");
+$j(wrapper + " .dataTables_filter > input").attr('placeholder', 'filter').addClass("span8");
+
+// Show sorting order in table headers
+$j(wrapper + " th[class^=sorting]").bind('click', function(event) {
+  var up = "icon-arrow-up";
+  var down = "icon-arrow-down"
+  var i = $j(event.target).children('i');
+
+
+  $j(i).toggleClass(up, $j(event.target).hasClass("sorting_asc")).toggleClass(down, $j(event.target).hasClass("sorting_desc"));
+  $j("th[class=sorting] > i").toggleClass(up, false).toggleClass(down, false);
+}
+
+);
+
+
+}
+
+function loadTable(table_obj, elem) {
+
+  var tab_rows = [];
+
+
+  $j.each(table_obj["short_rows"], function() {
+
+    var res = $(this)["result"];
+    var res_str;
+    switch(res) {
+    case 0:
+      res_str = '<span class="label label-important">Failed</span>';
+      break;
+    case 1:
+      res_str = '<span class="label label-success">Passed</span>';
+      break;
+    case 2:
+      res_str = '<span class="label label-warning">Skipped</span>';
+      break;
+    }
+    tab_rows.push("<tr><td>" + res_str + "</td><td>" + $(this)["testcase"] + "</td><td>" + $(this)["started"] + "</td>")
+  });
+
+ 
+  var tb = $j('<tbody></tbody>').append(tab_rows.join(''));
+
+  var thead = $j("<thead><tr><th>Result <i class='icon-empty'></i></th><th>Test case <i class='icon-empty'></i></th><th>Started <i class='icon-empty icon-arrow-up'></i></th></tr></thead>");
+
+  var table = $j("<table class=\"table table-striped\" id=\"dt_" + table_obj["table_id"] + "\"></table>").append(thead).append(tb).appendTo(elem);
+
+  initTable(table);
+
 
 }
 
 function toggle_box(box, e_id) // todo: fix
 {
 
-                      box.toggleClass("closed");
+  box.toggleClass("closed");
 
-                    //
-                    box.toggle("slow");  
+  //
+  box.toggle("slow");
 
-                    if (box.hasClass("closed"))
-                    {
-                      $j("#" + e_id).text("+")
-                    } else { $j("#" + e_id).text("-") }
-
-
-            
+  if(box.hasClass("closed")) {
+    $j("#" + e_id).text("+")
+  } else {
+    $j("#" + e_id).text("-")
+  }            
   
 }
-function expand_table(event)
-{
-                    var opts = {
-        lines: 13, // The number of lines to draw
-        length: 3, // The length of each line
-        width: 3, // The line thickness
-  radius: 10, // The radius of the inner circle
-  corners: 1, // Corner roundness (0..1)
-  rotate: 73, // The rotation offset
-  color: '#000', // #rgb or #rrggbb
-  speed: 1, // Rounds per second
-  trail: 64, // Afterglow percentage
-  shadow: true, // Whether to render a shadow
-  hwaccel: false, // Whether to use hardware acceleration
-  className: 'spinner', // The CSS class to assign to the spinner
-  zIndex: 2e9, // The z-index (defaults to 2000000000)
-  top: 'auto', // Top position relative to parent in px
-  left: 'auto' // Left position relative to parent in px
-};
+
+// Event target is expected to have id = "ct_{num}"
+function expand_table(event) {
+  var opts = {
+    lines: 13,
+    // The number of lines to draw
+    length: 3,
+    // The length of each line
+    width: 3,
+    // The line thickness
+    radius: 10,
+    // The radius of the inner circle
+    corners: 1,
+    // Corner roundness (0..1)
+    rotate: 73,
+    // The rotation offset
+    color: '#000',
+    // #rgb or #rrggbb
+    speed: 1,
+    // Rounds per second
+    trail: 64,
+    // Afterglow percentage
+    shadow: true,
+    // Whether to render a shadow
+    hwaccel: false,
+    // Whether to use hardware acceleration
+    className: 'spinner',
+    // The CSS class to assign to the spinner
+    zIndex: 2e9,
+    // The z-index (defaults to 2000000000)
+    top: 'auto',
+    // Top position relative to parent in px
+    left: 'auto' // Left position relative to parent in px
+  };
 
 
-                    
-                    
-                    var e_id = $j(event.target).attr("id");
-                    var box = $j("#box_" + e_id);
-                    var status = $j("#status_" + e_id);
-                    // not loaded, load table data before expansion
-                    if (!box.hasClass("loaded")) { 
-                        
-                      var table_data = null;  
-                      var table_id = 3;
-                      var spinner = new Spinner(opts).spin(status.get(0));
+  var e_id = $j(event.target).attr("id");
+  var box = $j("#box_" + e_id);
+  var status = $j("#status_" + e_id);
+  // not loaded, load table data before expansion
+  if(!box.hasClass("loaded")) {
+
+    var table_data = null;
+    var table_id = e_id.split("_")[1];
+
+    var spinner = new Spinner(opts).spin(status.get(0));
 
 
-                      layout.getJSONTable(table_id,function(r) { 
-                                    table_data = r.responseObject();
-                                    loadTable(table_data,box);
-                                    spinner.stop();
+    layout.getJSONTable(table_id, function(r) {
+      table_data = r.responseObject();
+      loadTable(table_data, box);
+      spinner.stop();
 
-                                    box.addClass("loaded") ;
-                                    toggle_box(box,e_id);
-                    
-                    } ); 
+      box.addClass("loaded");
+      toggle_box(box, e_id);
 
-                     } 
-                     else { toggle_box(box,e_id); } 
-                    
-                    // todo: 
+    });
 
+  } else {
+    toggle_box(box, e_id);
+  }
+
+  // todo: 
 
 }
 
 
-                var r = Raphael("result_chart",380,250);
-                var passed_col = "#14D100";
-                var failed_col = "#FFC200";
-                var skipped_col = "#FF2300";
 
-               
-                pie = r.piechart(125, 125, 100, 
-                        [num_passed,num_failed,num_skipped],
-                        { 
-                          colors: [passed_col,failed_col,skipped_col], 
-                          strokewidth: "3",
-                          legend: ["Passed", "Failed", "Skipped"],
-                          legendpos: "east"
-                        }
-                        );
-                
+var r = Raphael("result_chart", 380, 250);
+var passed_col = "#14D100";
+var failed_col = "#FFC200";
+var skipped_col = "#FF2300";
 
 
-                $j('.table').dataTable( { 
-                  "iDisplayLength" : 50,
-                  "sDom" : "<'row-fluid'<'span6'T><'span6'<'control-group'<'controls'f>>>r>t<'row-fluid'<'span6'i><'span6 pull-right'p>>",
-                  "aaSorting": [[2,'asc']]
-                });
-                $j('.dataTables_wrapper').removeClass("form-inline");
-                $j('.dataTables_filter > label').contents().filter(function() { return this.nodeType == 3; }).remove(); // Remove label text
-                $j('.dataTables_filter > label > input').unwrap();
-                $j('.dataTables_filter').addClass("input-prepend");
-                $j('.dataTables_filter > input').before("<span class='add-on'><i class='icon-filter'></i></span>");
-                $j('.dataTables_filter > input').attr('id','inputIcon').attr('placeholder','filter').addClass("span8");
-
-                // Global filter
-                $j('#gfilter_all > a').bind('click',function(event){ event.preventDefault(); $j("[id^=gfilter]").removeClass("active");$j('#gfilter_all').addClass("active"); filterGlobal("")});
-                $j('#gfilter_failed > a').bind('click',function(event){ event.preventDefault(); $j("[id^=gfilter]").removeClass("active");$j('#gfilter_failed').addClass("active");  filterGlobal("Failed")});
-                $j('#gfilter_passed > a').bind('click',function(event){ event.preventDefault();$j("[id^=gfilter]").removeClass("active");$j('#gfilter_passed').addClass("active");  filterGlobal("Passed")});
-                $j('#gfilter_skipped > a').bind('click',function(event){ event.preventDefault();$j("[id^=gfilter]").removeClass("active");$j('#gfilter_skipped').addClass("active"); filterGlobal("Skipped")});
+pie = r.piechart(125, 125, 100, [num_passed, num_failed, num_skipped], {
+  colors: [passed_col, failed_col, skipped_col],
+  strokewidth: "3",
+  legend: ["Passed", "Failed", "Skipped"],
+  legendpos: "east"
+});
 
 
-                // Navbar
-                $j("#nav-back").click(function() { history.back(); return false; });
+initTable($j('.table'));
 
-                // Show sorting order in table headers
-                $j("th[class^=sorting]").bind('click',function(event)
-                  {
-                      var up = "icon-arrow-up";
-                      var down = "icon-arrow-down"
-                      var i = $j(event.target).children('i');
-
-                      
-                      $j(i).toggleClass(up,$j(event.target).hasClass("sorting_asc")).toggleClass(down,$j(event.target).hasClass("sorting_desc"));
-                      $j("th[class=sorting] > i").toggleClass(up,false).toggleClass(down,false);
-                  }
-
-                  );
-
-                  $j("#ajaxb").bind('click',function(event) { 
-                    layout.getJSONTable(1,function(r) { 
-                                    var tab = r.responseObject();
-                                    alert(r.responseObject()["failed"]); 
-                                  }
-                                ); 
-                  });
-
-                  /*
-                  $j('[id^=c_]').bind('click',function(event) {
-
-                    
-                    var e_id = $j(event.target).attr("id");
-                    var box = $j("#box_" + e_id)
-                    if (!box.hasClass("loaded")) { box.addClass("loaded") }
-                    box.toggleClass("closed");
-
-                    box.toggle("slow");
-
-                    if (box.hasClass("closed"))
-                    {
-                      $j("#" + e_id).text("+")
-                    } else { $j("#" + e_id).text("-") }
+// Global filter
 
 
-                  });
-                  */
-                  $j('[id^=c_99]').bind('click',expand_table);                  
+$j('#gfilter_all > a').bind('click', function(event) {
+  event.preventDefault();
+  $j("[id^=gfilter]").removeClass("active");
+  $j('#gfilter_all').addClass("active");
+  filterGlobal("")
+});
+$j('#gfilter_failed > a').bind('click', function(event) {
+  event.preventDefault();
+  $j("[id^=gfilter]").removeClass("active");
+  $j('#gfilter_failed').addClass("active");
+  filterGlobal("Failed")
+});
+$j('#gfilter_passed > a').bind('click', function(event) {
+  event.preventDefault();
+  $j("[id^=gfilter]").removeClass("active");
+  $j('#gfilter_passed').addClass("active");
+  filterGlobal("Passed")
+});
+$j('#gfilter_skipped > a').bind('click', function(event) {
+  event.preventDefault();
+  $j("[id^=gfilter]").removeClass("active");
+  $j('#gfilter_skipped').addClass("active");
+  filterGlobal("Skipped")
+});
+
+
+// Navbar
+$j("#nav-back").click(function() {
+  history.back();
+  return false;
+});
+
+// Epand table
+$j('[id^=c_]').bind('click', expand_table);             
 
  
 ]]> 
-                });
+});
 </script>
 
 
@@ -349,32 +396,16 @@ function expand_table(event)
     </ul>
   </div>
 </div>
-
-
-
-      <div class="row">
-        <div class="span12">
-          <p class="lead"><button class="btn btn-mini" type="button" id="c_99">-</button> test_SUITE
-            <!-- <br /> --> &#160;&#160;
-         
-          <span class="badge badge-success">0</span>
-          &#160;<span class="badge badge-important">0</span>
-          &#160;<span class="badge badge-warning">0</span>
-          <div id="status_c_99"></div>
-
-          </p>
-          
-          <hr />
-          <div class="table_box closed" id="box_c_99" style="display:none">
-            <p>This is hidden</p>
-          </div> 
-      </div></div>
-
+     
       <j:forEach var="table" items="${it.report_layout.tables}">
 
       <div class="row">
         <div class="span12">
-          <p class="lead"><button class="btn btn-mini" type="button" id="c_${table.table_id}">-</button> ${table.label}
+          <p class="lead">
+            <button class="btn btn-mini" type="button" id="c_${table.table_id}">
+              <j:if test="${table.initial_state == 0}">+</j:if>
+              <j:if test="${table.initial_state == 1}">-</j:if>
+            </button> ${table.label}
             <!-- <br /> --> &#160;&#160;
           
            <j:if test="${table.passCount != 0}">
@@ -390,7 +421,15 @@ function expand_table(event)
           </p>
           
           <hr />
-         <div class="table_box" id="box_c_${table.table_id}"> 
+        
+        <j:if test="${table.initial_state == 0}"> <!--  initial state == data not loaded -->
+        
+        <div class="table_box closed" id="box_c_${table.table_id}" style="display: none;"> </div>
+
+        </j:if>
+         
+         <j:if test="${table.initial_state == 1}"> <!--  initial state == data loaded -->
+         <div class="table_box loaded" id="box_c_${table.table_id}"> 
          <table class="table table-striped" id="dt_${table.table_id}">
   
   <thead>
@@ -426,6 +465,8 @@ function expand_table(event)
   </tbody>
 </table> 
 </div> <!-- table_box -->
+</j:if> 
+
         </div>
       
       

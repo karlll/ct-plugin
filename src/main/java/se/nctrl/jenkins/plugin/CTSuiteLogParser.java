@@ -57,10 +57,10 @@ public class CTSuiteLogParser extends CTLogParser {
     private CTResult tr_root = null;
     private CTResult tr_current_child = null;
     private boolean parsing_child = false;
-    //private AbstractBuild build;
+    
 
     public CTSuiteLogParser(AbstractBuild build) {
-        //this.build = build;
+        
         super(build);
     }
     

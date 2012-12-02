@@ -15,9 +15,13 @@ public class CTSurefireLogParser extends CTLogParser {
     {
         super(build);
     }
+    
     @Override
     public CTResult parse(File f) throws FileNotFoundException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        
+        return null;
+        
     }
     
 }

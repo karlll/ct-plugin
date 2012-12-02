@@ -31,6 +31,7 @@ public class CTReportLayout {
         private String label;
         private ArrayList<CTResult> res;
         private int table_id;
+        private int initial_state;
         
         private int passed = 0;
         private int failed = 0;
@@ -58,15 +59,21 @@ public class CTReportLayout {
             return table_id;
         }
 
+        public int getInitial_state() {
+            return initial_state;
+        }
+        
+        
         public String getLabel() {
             return label;
         }
         
-        public CTReportTable(String label, int id, Collection<CTResult> res) {
+        public CTReportTable(String label, int id, int initial_s, Collection<CTResult> res) {
             this.label = label;
             this.res = new ArrayList<CTResult>();
             this.res.addAll(res);
             this.table_id = id;
+            this.initial_state = initial_s;
             
             for (CTResult r : this.res)
             {
@@ -127,7 +134,8 @@ public class CTReportLayout {
 
     public CTReportLayout(CTResult top_result) {
     
-        int id_c = 0;
+        int id_c = 1;
+        int initial_state = 0; // 0 == data not loaded, 1 == data loaded
         
         this.top_result = top_result;
         this.tables = new ArrayList<CTReportTable>();
@@ -135,7 +143,7 @@ public class CTReportLayout {
         for ( Map.Entry<String,Collection<CTResult>> e : top_result.getSuites().entrySet() )
         {
             
-            CTReportTable t = new CTReportTable(e.getKey(),id_c,e.getValue());
+            CTReportTable t = new CTReportTable(e.getKey(),id_c,initial_state,e.getValue());
             
             this.totalCount  += t.getTotalCount();
             this.passCount += t.getPassCount();
@@ -177,9 +185,11 @@ public class CTReportLayout {
         // TODO: this.tables should be indexed
         for (Iterator<CTReportTable> i = this.tables.iterator(); i.hasNext();)
         {
-            if (i.next().getTable_id() == table_id)
+            CTReportTable tab = i.next();
+            if (tab.getTable_id() == table_id)
             {
-                return i.next();
+                return tab;
+                
             }
                      
         }
