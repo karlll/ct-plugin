@@ -44,7 +44,9 @@ public class CTSuiteLogParser extends CTLogParser {
         SUCCESSFUL,
         USER_SKIPPED,
         AUTO_SKIPPED,
-        GROUP_PROPS
+        GROUP_PROPS,
+        NODE_START,
+        NODE_STOP
     }
     
     private static Pattern field_pattern = Pattern.compile("^=(\\w+)\\s+(.+)$");
@@ -57,7 +59,7 @@ public class CTSuiteLogParser extends CTLogParser {
     private CTResult tr_root = null;
     private CTResult tr_current_child = null;
     private boolean parsing_child = false;
-    
+    private String suite_path;
 
     public CTSuiteLogParser(AbstractBuild build) {
         
@@ -67,7 +69,7 @@ public class CTSuiteLogParser extends CTLogParser {
     public CTResult parse(File f) throws FileNotFoundException, IOException {
         
         this.tr_root = new CTResult(this.getBuild());
-        
+        //this.suite_path = f.
         
         FileInputStream fs = new FileInputStream(f);
         this.br = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
@@ -103,11 +105,19 @@ public class CTSuiteLogParser extends CTLogParser {
         logger.log(Level.FINE, "parsed : field = {0}, value = {1}", new Object[]{fieldname, value});
 
         Fields f = Fields.valueOf(fieldname.toUpperCase());
+        
 
         switch (f) {
 
             case CASES:
-                int cases = Integer.parseInt(value);
+                int cases;
+                if (value.equals("unknown")) { // this is apparently possible
+                    cases = 0;
+                    logger.log(Level.WARNING, "Cases had value 'unknown'");
+                } else {              
+                    cases = Integer.parseInt(value); 
+                }
+                
                 logger.log(Level.FINE, "Set cases to {0}", cases);
                 this.tr_root.setCases(cases);
                 break;
@@ -297,6 +307,17 @@ public class CTSuiteLogParser extends CTLogParser {
                 this.tr_root.setGroup_props(gp_value3);
 
                 break;
+                
+            case NODE_START:
+                logger.log(Level.FINE, "Set node start to {0}", value);
+                this.tr_root.setNode_start(value);
+                break;
+            
+             case NODE_STOP:
+                logger.log(Level.FINE, "Set node stop to {0}", value);
+                this.tr_root.setNode_stop(value);
+                break;    
+                
             default:
         }
 

@@ -51,8 +51,10 @@ public class CTResult  extends TestResult{
     private int user_skipped;
     private int auto_skipped;
     private String group_props;
+    private String node_start;
+    private String node_stop;
+
    
-  
     
     
     
@@ -259,8 +261,21 @@ public class CTResult  extends TestResult{
         this.group_props = group_props;
     }
 
-   
-  
+    public String getNode_start() {
+        return node_start;
+    }
+
+    public void setNode_start(String node_start) {
+        this.node_start = node_start;
+    }
+     
+   public String getNode_stop() {
+        return node_start;
+    }
+
+    public void setNode_stop(String node_stop) {
+        this.node_stop = node_stop;
+    }  
     //------------------------------------------------------------------------
     
     
