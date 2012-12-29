@@ -226,10 +226,10 @@ public class CTSuiteLogParser extends CTLogParser {
                             logger.log(Level.FINE, "Set result to SKIPPED");
                             res = 2;
                         } else {
-                            logger.log(Level.SEVERE, "Uable to parse result-field (Invalid result)");
+                            logger.log(Level.SEVERE, "Unable to parse result-field (Invalid result)");
                         }
                     } else {
-                        logger.log(Level.SEVERE, "Uable to parse result-field (Empty result)");
+                        logger.log(Level.SEVERE, "Unable to parse result-field (Empty result)");
                     }
                     this.tr_current_child.setResult(res);
                     this.tr_current_child.setResult_msg(value3);

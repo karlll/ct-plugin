@@ -27,7 +27,10 @@ import org.junit.Test;
  */
 public class CTLogParserTest {
     
- private class LogFormatter extends SimpleFormatter
+    private final static String TEST_SUITE_LOG = "/logs/asn1_test_logs/ct_run.ct@devbox.2012-11-19_16.37.18/tests.asn1_test.logs/run.2012-11-19_16.37.20/suite.log";
+    private final static String TEST_SUREFIRE_LOG = "/logs/asn1_test_logs/ct_run.ct@devbox.2012-11-19_16.37.18/junit_report.xml";
+    
+    private class LogFormatter extends SimpleFormatter
  {
      @Override
     	public String format(LogRecord record) {
@@ -97,21 +100,45 @@ public class CTLogParserTest {
 
     
     @Test
-    public void testParse() {
+    public void testParseSuiteLog() {
 
-        CTSuiteLogParser p = new CTSuiteLogParser(null);
-        URL u = this.getClass().getResource("/suite2.log");
+        CTLogParser p = new CTSuiteLogParser(null);
+        URL u = this.getClass().getResource(TEST_SUITE_LOG);
         String f = u.getFile();
         
         try {
-            p.parse(new File(f));
+            CTResult res = p.parse(new File(f));
+            
+            assertNotNull(res);
         } catch (FileNotFoundException ex) {
            fail("Got FileNotFoundException");
         } catch (IOException ex) {
            fail("Got IOException");
-        }
+        } catch (Exception ex) { fail ("Got exception"); }
+       }
+
+    @Test
+    public void testParseSurefireLog() {
+
+        CTLogParser p = new CTSurefireLogParser(null);
+        URL u = this.getClass().getResource(TEST_SUREFIRE_LOG);
+        String f = u.getFile();
         
+        CTResult t = CTResultTestData.getMockResultObject();      
+        
+        try {
+            CTResult res = p.parse(new File(f));
+            
+            assertNotNull(res);
+        } catch (FileNotFoundException ex) {
+           fail("Got FileNotFoundException");
+        } catch (IOException ex) {
+           fail("Got IOException");
+        } catch (Exception ex) { fail ("Got exception"); }
+
         
     
     }
+    
 }
+
