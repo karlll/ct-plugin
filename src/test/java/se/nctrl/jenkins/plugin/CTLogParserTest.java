@@ -124,7 +124,7 @@ public class CTLogParserTest {
         URL u = this.getClass().getResource(TEST_SUREFIRE_LOG);
         String f = u.getFile();
         
-        CTResult t = CTResultTestData.getMockResultObject();      
+        CTResult t = CTResultTestUtil.getMockResultObject();      
         
         try {
             CTResult res = p.parse(new File(f));

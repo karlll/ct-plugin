@@ -6,11 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * CTResultTestData
+ * CTResultTestUtil
  *
  * @author karl l <karl@ninjacontrol.com>
  */
-public class CTResultTestData {
+public class CTResultTestUtil {
 
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
