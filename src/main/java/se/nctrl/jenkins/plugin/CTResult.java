@@ -270,7 +270,7 @@ public class CTResult  extends TestResult{
     }
      
    public String getNode_stop() {
-        return node_start;
+        return node_stop;
     }
 
     public void setNode_stop(String node_stop) {
