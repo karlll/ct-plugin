@@ -38,33 +38,6 @@ public class CTLogParserTest {
          
 	} 
  }
- 
- private class FF implements FileFilter
- {
-
-        public boolean accept(File pathname) {
-            System.out.println(pathname);
-         return true;
-            
-        }
-     
- }
-
-  private class aFF implements IOFileFilter
- {
-
-        public boolean accept(File file) {
-            System.out.println(file);
-         return true;
-            
-        }
-
-        public boolean accept(File dir, String name) {
-            System.out.println(dir + " : " + name);
-            return true;
-        }
-     
- }
 
  
  public CTLogParserTest() {
@@ -105,17 +78,32 @@ public class CTLogParserTest {
         CTLogParser p = new CTSuiteLogParser(null);
         URL u = this.getClass().getResource(TEST_SUITE_LOG);
         String f = u.getFile();
-        
+        CTResult res = null;
         try {
-            CTResult res = p.parse(new File(f));
-            
+             res = p.parse(new File(f));
+        
             assertNotNull(res);
+        
+        
+             
         } catch (FileNotFoundException ex) {
            fail("Got FileNotFoundException");
         } catch (IOException ex) {
            fail("Got IOException");
-        } catch (Exception ex) { fail ("Got exception"); }
-       }
+        } catch (Exception ex) { fail ("Got exception when parsing"); }
+       
+        CTResult t = CTResultTestUtil.getMockResultObject();      
+        CTResultTestUtil.DiffResult d_res = CTResultTestUtil.diff(res, t);
+        
+        if (!d_res.eq) {
+        
+            System.out.print("Diff :\n");
+            System.out.print(d_res.diff_list);
+            fail("Parsed CTResult does not match test data.");
+        }
+        
+
+    }
 
     @Test
     public void testParseSurefireLog() {
@@ -124,7 +112,9 @@ public class CTLogParserTest {
         URL u = this.getClass().getResource(TEST_SUREFIRE_LOG);
         String f = u.getFile();
         
-        CTResult t = CTResultTestUtil.getMockResultObject();      
+        
+        
+
         
         try {
             CTResult res = p.parse(new File(f));

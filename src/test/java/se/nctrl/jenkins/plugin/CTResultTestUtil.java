@@ -4,6 +4,7 @@ package se.nctrl.jenkins.plugin;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * CTResultTestUtil
@@ -11,6 +12,11 @@ import java.util.Date;
  * @author karl l <karl@ninjacontrol.com>
  */
 public class CTResultTestUtil {
+
+    public static class DiffResult {
+        public boolean eq;
+        public String diff_list;
+    }
 
     private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
@@ -46,6 +52,119 @@ public class CTResultTestUtil {
         return Float.parseFloat(float_string);
     }
 
+    
+    private static boolean eq(String a, String b)
+    {
+        if (a == null && b == null ) {
+            return true;
+        }
+        if (a == null ) {
+            return false;
+        }
+        return a.equals(b);
+    }
+
+    private static boolean eq(Date a, Date b)
+    {
+        if (a == null && b == null ) {
+            return true;
+        }
+        if (a == null ) {
+            return false;
+        }
+        return a.equals(b);
+    }
+
+    
+    private static DiffResult diff_result ( CTResult a, CTResult b )
+    {
+        DiffResult res = new DiffResult();
+        StringBuilder sb = new StringBuilder();
+        int diff_count = 0;
+        res.eq = true;
+        
+        
+        if (a == null && b != null)
+        {
+            res.eq = false;
+            res.diff_list = "+ " + b.getCase_name();
+            
+            return res;
+        }
+        
+        if (b == null && a != null)
+        {
+            res.eq = false;
+            res.diff_list = "- " + a.getCase_name();
+            
+            return res;
+        }
+        
+        if ( a.getCases() != b.getCases() ) { diff_count++; sb.append(" getUser : [-] ").append(a.getCases()).append(" ; [+] ").append(b.getCases()).append("\n");  }
+        if ( !a.getUser().equals(b.getUser())) { diff_count++;  sb.append(" getUser : [-] ").append(a.getUser()).append(" ; [+] ").append(b.getUser()).append("\n");  }
+        if ( !a.getHost().equals(b.getHost())) { diff_count++;  sb.append(" getHost : [-] ").append(a.getHost()).append(" ; [+] ").append(b.getHost()).append("\n");  }
+        if ( !a.getHosts().equals(b.getHosts())) { diff_count++;  sb.append(" getHosts : [-] ").append(a.getHosts()).append(" ; [+] ").append(b.getHosts()).append("\n");  }
+        if ( !eq(a.getLan(),b.getLan())) { diff_count++;  sb.append(" getLan : [-] ").append(a.getLan()).append(" ; [+] ").append(b.getLan()).append("\n");  }
+        if ( !eq(a.getEmulator_vsn(),b.getEmulator_vsn())) { diff_count++;  sb.append(" getEmulator_vsn : [-] ").append(a.getEmulator_vsn()).append(" ; [+] ").append(b.getEmulator_vsn()).append("\n");  }
+        if ( !eq(a.getEmulator(),b.getEmulator())) { diff_count++;  sb.append(" getEmulator : [-] ").append(a.getEmulator()).append(" ; [+] ").append(b.getEmulator()).append("\n");  }
+        if ( !eq(a.getOtp_release(),b.getOtp_release())) { diff_count++;  sb.append(" getOtp_release : [-] ").append(a.getOtp_release()).append(" ; [+] ").append(b.getOtp_release()).append("\n");  }
+        if ( !eq(a.getStarted(),b.getStarted())) { diff_count++;  sb.append(" getStarted : [-] ").append(a.getStarted()).append(" ; [+] ").append(b.getStarted()).append("\n");  }
+        if ( !eq(a.getCase_name(),b.getCase_name())) { diff_count++;  sb.append(" getCase_name : [-] ").append(a.getCase_name()).append(" ; [+] ").append(b.getCase_name()).append("\n");  }
+        if ( !eq(a.getLog_file(),b.getLog_file())) { diff_count++;  sb.append(" getLog_file : [-] ").append(a.getLog_file()).append(" ; [+] ").append(b.getLog_file()).append("\n");  }
+        if ( !eq(a.getEnded(),b.getEnded())) { diff_count++;  sb.append(" getEnded : [-] ").append(a.getEnded()).append(" ; [+] ").append(b.getEnded()).append("\n");  }
+        if ( !eq(a.getResult_msg(),b.getResult_msg())) { diff_count++;  sb.append(" getResult_msg : [-] ").append(a.getResult_msg()).append(" ; [+] ").append(b.getResult_msg()).append("\n");  }
+        if ( a.getElapsed() != b.getElapsed()) { diff_count++;  sb.append(" getElapsed : [-] ").append(a.getElapsed()).append(" ; [+] ").append(b.getElapsed()).append("\n");  }
+        if ( !eq(a.getGroup_time(),b.getGroup_time())) { diff_count++;  sb.append(" getGroup_time : [-] ").append(a.getGroup_time()).append(" ; [+] ").append(b.getGroup_time()).append("\n");  }
+        if ( !eq(a.getFinished() ,b.getFinished())) { diff_count++;  sb.append(" getFinished : [-] ").append(a.getFinished()).append(" ; [+] ").append(b.getFinished()).append("\n");  }
+        if ( a.getFailed() != b.getFailed()) { diff_count++;  sb.append(" getFailed : [-] ").append(a.getFailed()).append(" ; [+] ").append(b.getFailed()).append("\n");  }
+        if ( a.getSuccessful() != b.getSuccessful()) { diff_count++;  sb.append(" getSuccessful : [-] ").append(a.getSuccessful()).append(" ; [+] ").append(b.getSuccessful()).append("\n");  }
+        if ( a.getUser_skipped() != b.getUser_skipped()) { diff_count++;  sb.append(" getUser_skipped : [-] ").append(a.getUser_skipped()).append(" ; [+] ").append(b.getUser_skipped()).append("\n");  }
+        if ( a.getAuto_skipped() != b.getAuto_skipped()) { diff_count++;  sb.append(" getAuto_skipped : [-] ").append(a.getAuto_skipped()).append(" ; [+] ").append(b.getAuto_skipped()).append("\n");  }
+        if ( !eq(a.getGroup_props(),b.getGroup_props())) { diff_count++;  sb.append(" getGroup_props : [-] ").append(a.getGroup_props()).append(" ; [+] ").append(b.getGroup_props()).append("\n");  }
+        if ( !eq(a.getNode_start(),b.getNode_start())) { diff_count++;  sb.append(" getNode_start : [-] ").append(a.getNode_start()).append(" ; [+] ").append(b.getNode_start()).append("\n");  }
+        if ( !eq(a.getNode_stop(),b.getNode_stop())) { diff_count++;  sb.append(" getNode_stop : [-] ").append(a.getNode_stop()).append(" ; [+] ").append(b.getNode_stop()).append("\n");  }
+        if ( a.getResult() != b.getResult()) { diff_count++;  sb.append(" getResult : [-] ").append(a.getResult()).append(" ; [+] ").append(b.getResult()).append("\n");  }
+        if ( a.getTotalCases() != b.getTotalCases()) { diff_count++;  sb.append(" getTotalCases : [-] ").append(a.getTotalCases()).append(" ; [+] ").append(b.getTotalCases()).append("\n");  }
+        if ( a.getTotalFailedCases() != b.getTotalFailedCases()) { diff_count++;  sb.append(" getTotalFailedCases : [-] ").append(a.getTotalFailedCases()).append(" ; [+] ").append(b.getTotalFailedCases()).append("\n");  }
+        if ( a.getTotalPassedCases() != b.getTotalPassedCases()) { diff_count++;  sb.append(" getTotalPassedCases : [-] ").append(a.getTotalPassedCases()).append(" ; [+] ").append(b.getTotalPassedCases()).append("\n");  }
+        if ( a.getTotalSkippedCases() != b.getTotalSkippedCases()) { diff_count++;  sb.append(" getTotalSkippedCases : [-] ").append(a.getTotalSkippedCases()).append(" ; [+] ").append(b.getTotalSkippedCases()).append("\n");  }
+        if ( !eq(a.getDisplayName(),b.getDisplayName())) { diff_count++;  sb.append(" getDisplayName : [-] ").append(a.getDisplayName()).append(" ; [+] ").append(b.getDisplayName()).append("\n");  }
+        if ( a.getDuration() != b.getDuration()) { diff_count++;  sb.append(" getDuration : [-] ").append(a.getDuration()).append(" ; [+] ").append(b.getDuration()).append("\n");  }
+        if ( !eq(a.getErrorDetails(),b.getErrorDetails())) { diff_count++;  sb.append(" getErrorDetails : [-] ").append(a.getErrorDetails()).append(" ; [+] ").append(b.getErrorDetails()).append("\n");  }
+        if ( !eq(a.getErrorStackTrace(),b.getErrorStackTrace())) { diff_count++;  sb.append(" getErrorStackTrace : [-] ").append(a.getErrorStackTrace()).append(" ; [+] ").append(b.getErrorStackTrace()).append("\n");  }
+        if ( a.getFailCount() != b.getFailCount()) { diff_count++;  sb.append(" getFailCount : [-] ").append(a.getFailCount()).append(" ; [+] ").append(b.getFailCount()).append("\n");  }
+        if ( a.getPassCount() != b.getPassCount()) { diff_count++;  sb.append(" getPassCount : [-] ").append(a.getPassCount()).append(" ; [+] ").append(b.getPassCount()).append("\n");  }
+        if ( a.getSkipCount() != b.getSkipCount()) { diff_count++;  sb.append(" getSkipCount : [-] ").append(a.getSkipCount()).append(" ; [+] ").append(b.getSkipCount()).append("\n");  }
+        if ( a.getTotalCount() != b.getTotalCount()) { diff_count++;  sb.append(" getTotalCount : [-] ").append(a.getTotalCount()).append(" ; [+] ").append(b.getTotalCount()).append("\n");  }
+        if ( !eq(a.getStderr(),b.getStderr())) { diff_count++;  sb.append(" getStderr : [-] ").append(a.getStderr()).append(" ; [+] ").append(b.getStderr()).append("\n");  }
+        if ( !eq(a.getStdout(),b.getStdout())) { diff_count++;  sb.append(" getStdout : [-] ").append(a.getStdout()).append(" ; [+] ").append(b.getStdout()).append("\n");  }
+        if ( !eq(a.getTitle(),b.getTitle())) { diff_count++;  sb.append(" getTitle : [-] ").append(a.getTitle()).append(" ; [+] ").append(b.getTitle()).append("\n");  }
+        if ( !eq(a.getName(),b.getName())) { diff_count++;  sb.append(" getName : [-] ").append(a.getName()).append(" ; [+] ").append(b.getName()).append("\n");  }
+        
+ 
+        res.diff_list = sb.toString();
+        if (diff_count > 0 ) {
+            res.eq = false;
+        }
+        
+        return res;
+    }
+            
+    
+    static DiffResult diff (CTResult a, CTResult b)
+    {
+        
+        StringBuilder sb = new StringBuilder();
+        DiffResult res = diff_result(a, b);
+        
+        Map<String, CTResult> a_c = a.getChildMap();
+        Map<String, CTResult> b_c = b.getChildMap();
+        
+        
+        
+        return res;
+    }
+    
     static CTResult getMockResultObject() {
 
 
