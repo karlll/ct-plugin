@@ -490,6 +490,20 @@ public class CTResult  extends TestResult{
         }
     }
     
+    /**
+     * Get a Map of the CTResult children keyed by test case name 
+     * @return A Map of the CTResult
+     */
+    public Map<String, CTResult> getChildMap()
+{
+    Map<String,CTResult> child_map = new HashMap<String,CTResult>();
+    
+    for (CTResult c : this.children) {
+        child_map.put(c.case_name, c);
+    }
+    
+    return child_map;
+}
     
 public Map<String, Collection<CTResult>> getSuites()
 {
@@ -671,4 +685,4 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
     
     
     
-}
+} 
