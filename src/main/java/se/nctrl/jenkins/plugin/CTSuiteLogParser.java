@@ -272,7 +272,7 @@ public class CTSuiteLogParser extends CTLogParser {
                     finished_date = null;
                     logger.log(Level.SEVERE, "Error while parsing date.");
                 }
-                this.tr_root.setEnded(finished_date);
+                this.tr_root.setFinished(finished_date);
                 break;
 
             case SUCCESSFUL:
