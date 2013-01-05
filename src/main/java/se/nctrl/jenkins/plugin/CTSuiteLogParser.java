@@ -250,19 +250,30 @@ public class CTSuiteLogParser extends CTLogParser {
 
             case ELAPSED:
                 if (this.parsing_child && this.tr_current_child != null) {
-                float elapsed = Float.parseFloat(value);
-                logger.log(Level.FINE, "Set elapsed to {0}", elapsed);
-                this.tr_root.setElapsed(elapsed); 
+                    float elapsed;
+                    try {
+                        elapsed = Float.parseFloat(value);
+                    } catch (NumberFormatException numberFormatException) {
+                        logger.log(Level.SEVERE, "Unable to parse elapsed-field, ('{0}' - invalid value)", value);
+                        break;
+                    }
+                    
+                    logger.log(Level.FINE, "Set elapsed to {0}", Float.toString(elapsed));
+                    this.tr_current_child.setElapsed(elapsed); 
                 }  else if (!this.parsing_child) {
                     logger.log(Level.SEVERE, "Unexpected elapsed-field.");
                 }
                 break;
 
             case GROUP_TIME:
+                if (this.parsing_child && this.tr_current_child != null) {
                 logger.log(Level.FINE, "Set group time to {0}", value);
-                this.tr_root.setGroup_time(value);
-
+                this.tr_current_child.setGroup_time(value);
+                } else if (!this.parsing_child) {
+                    logger.log(Level.SEVERE, "Unexpected group time-field.");
+                }
                 break;
+                
             case FINISHED:
                 Date finished_date;
                 try {
@@ -301,11 +312,14 @@ public class CTSuiteLogParser extends CTLogParser {
 
                 break;
             case GROUP_PROPS:
+                if (this.parsing_child && this.tr_current_child != null) {
                 String gp_value2 = this.readMultiLine();
                 String gp_value3 = value + gp_value2;
 
-                this.tr_root.setGroup_props(gp_value3);
-
+                this.tr_current_child.setGroup_props(gp_value3);
+                } else if (!this.parsing_child) {
+                    logger.log(Level.SEVERE, "Unexpected group props-field.");
+                }
                 break;
                 
             case NODE_START:

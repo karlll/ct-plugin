@@ -84,7 +84,6 @@ public class CTLogParserTest {
         
             assertNotNull(res);
         
-        
              
         } catch (FileNotFoundException ex) {
            fail("Got FileNotFoundException");
