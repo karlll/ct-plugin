@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -71,16 +70,12 @@ public class CTLogParserTest {
     }
 
 
-    
-    @Test
-    public void testParseSuiteLog() {
 
-        CTLogParser p = new CTSuiteLogParser(null);
-        URL u = this.getClass().getResource(TEST_SUITE_LOG);
-        String f = u.getFile();
+    private void test_parse(CTLogParser p, URL u)
+    {
         CTResult res = null;
         try {
-             res = p.parse(new File(f));
+             res = p.parse(new File(u.getFile()));
         
             assertNotNull(res);
         
@@ -101,33 +96,31 @@ public class CTLogParserTest {
             fail("Parsed CTResult does not match test data.");
         }
         
+    }
+    
+    @Test
+    public void testParseSuiteLog() {
+
+        CTLogParser p = new CTSuiteLogParser(null);
+        URL u = this.getClass().getResource(TEST_SUITE_LOG);
+        test_parse(p,u);
 
     }
-
+  
+    // Not implemented yet
+    /*
+    
     @Test
     public void testParseSurefireLog() {
 
+
         CTLogParser p = new CTSurefireLogParser(null);
         URL u = this.getClass().getResource(TEST_SUREFIRE_LOG);
-        String f = u.getFile();
+        test_parse(p,u);
         
-        
-        
-
-        
-        try {
-            CTResult res = p.parse(new File(f));
-            
-            assertNotNull(res);
-        } catch (FileNotFoundException ex) {
-           fail("Got FileNotFoundException");
-        } catch (IOException ex) {
-           fail("Got IOException");
-        } catch (Exception ex) { fail ("Got exception"); }
-
-        
-    
     }
+    
+    */
     
 }
 

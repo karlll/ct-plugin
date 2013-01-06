@@ -1,11 +1,8 @@
 
 package se.nctrl.jenkins.plugin;
 
-import org.junit.After;
-import org.junit.AfterClass;
+
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -15,24 +12,6 @@ import org.junit.Test;
 public class CTResultTest {
     
     
-    public CTResultTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of addChild method, of class CTResult.
@@ -49,19 +28,24 @@ public class CTResultTest {
     
     }
 
-    /**
-     * Test of findCorrespondingResult method, of class CTResult.
-     */
     @Test
-    public void testFindCorrespondingResult() {
-        fail("The test case is a prototype.");
+    public void testProps()
+    {
+        CTResult t = CTResultTestUtil.getMockResultObject();
+        
+        assertEquals(t.getCases(), 128);
+        assertEquals(t.getUser(),"karl");
+        assertEquals(t.getHost(),"devbox");
+        assertEquals(t.getHosts(),"devbox ");
+        assertEquals(t.getEmulator_vsn(),"5.9.3");
+        assertEquals(t.getEmulator(),"beam");
+        assertEquals(t.getOtp_release(),"R15B03");
+        assertEquals(t.getStarted().toString(),"Mon Nov 19 16:37:20 CET 2012");
+        assertEquals(t.getFinished().toString(),"Mon Nov 19 17:07:56 CET 2012");
+        assertEquals(t.getFailed(),0);
+        assertEquals(t.getSuccessful(),127);
+        assertEquals(t.getUser_skipped(),1);
+        assertEquals(t.getAuto_skipped(),0);
     }
-
-    /**
-     * Test of getDisplayName method, of class CTResult.
-     */
-    @Test
-    public void testGetDisplayName() {
-        fail("The test case is a prototype.");
-    }
+    
 }
