@@ -79,6 +79,11 @@ public class CTSuiteLogParser extends CTLogParser {
                 String l = br.readLine();
 
                 if (l == null) {
+                    if (this.parsing_child) { // Add the last child
+                    
+                       this.tr_root.addChild(this.tr_current_child);
+                    
+                    }   
                     break;
                 }
 

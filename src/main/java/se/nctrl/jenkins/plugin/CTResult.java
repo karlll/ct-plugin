@@ -491,16 +491,21 @@ public class CTResult  extends TestResult{
     }
     
     /**
-     * Get a Map of the CTResult children keyed by test case name 
+     * Get a Map of the CTResult children keyed by test case 
      * @return A Map of the CTResult
      */
     public Map<String, CTResult> getChildMap()
 {
     Map<String,CTResult> child_map = new HashMap<String,CTResult>();
     
-    for (CTResult c : this.children) {
-        child_map.put(c.case_name, c);
+    if (this.hasChildren()) {
+        
+        for (CTResult c : this.children) {
+            // Use log file basename since case name isn't unique
+            child_map.put(c.log_file.substring(0, c.log_file.lastIndexOf('.')), c);
+        } 
     }
+    
     
     return child_map;
 }

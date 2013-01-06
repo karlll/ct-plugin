@@ -76,7 +76,7 @@ public class CTResultTestUtil {
     }
 
     
-    private static DiffResult diff_result ( CTResult a, CTResult b )
+    private static DiffResult diff_result ( String lvl, CTResult a, CTResult b )
     {
         DiffResult res = new DiffResult();
         StringBuilder sb = new StringBuilder();
@@ -101,9 +101,9 @@ public class CTResultTestUtil {
         }
         
         if ( a.getCases() != b.getCases() ) { diff_count++; sb.append(" getUser : [-] ").append(a.getCases()).append(" ; [+] ").append(b.getCases()).append("\n");  }
-        if ( !a.getUser().equals(b.getUser())) { diff_count++;  sb.append(" getUser : [-] ").append(a.getUser()).append(" ; [+] ").append(b.getUser()).append("\n");  }
-        if ( !a.getHost().equals(b.getHost())) { diff_count++;  sb.append(" getHost : [-] ").append(a.getHost()).append(" ; [+] ").append(b.getHost()).append("\n");  }
-        if ( !a.getHosts().equals(b.getHosts())) { diff_count++;  sb.append(" getHosts : [-] ").append(a.getHosts()).append(" ; [+] ").append(b.getHosts()).append("\n");  }
+        if ( !eq(a.getUser(),b.getUser())) { diff_count++;  sb.append(" getUser : [-] ").append(a.getUser()).append(" ; [+] ").append(b.getUser()).append("\n");  }
+        if ( !eq(a.getHost(),b.getHost())) { diff_count++;  sb.append(" getHost : [-] ").append(a.getHost()).append(" ; [+] ").append(b.getHost()).append("\n");  }
+        if ( !eq(a.getHosts(),b.getHosts())) { diff_count++;  sb.append(" getHosts : [-] ").append(a.getHosts()).append(" ; [+] ").append(b.getHosts()).append("\n");  }
         if ( !eq(a.getLan(),b.getLan())) { diff_count++;  sb.append(" getLan : [-] ").append(a.getLan()).append(" ; [+] ").append(b.getLan()).append("\n");  }
         if ( !eq(a.getEmulator_vsn(),b.getEmulator_vsn())) { diff_count++;  sb.append(" getEmulator_vsn : [-] ").append(a.getEmulator_vsn()).append(" ; [+] ").append(b.getEmulator_vsn()).append("\n");  }
         if ( !eq(a.getEmulator(),b.getEmulator())) { diff_count++;  sb.append(" getEmulator : [-] ").append(a.getEmulator()).append(" ; [+] ").append(b.getEmulator()).append("\n");  }
@@ -141,7 +141,43 @@ public class CTResultTestUtil {
         if ( !eq(a.getTitle(),b.getTitle())) { diff_count++;  sb.append(" getTitle : [-] ").append(a.getTitle()).append(" ; [+] ").append(b.getTitle()).append("\n");  }
         if ( !eq(a.getName(),b.getName())) { diff_count++;  sb.append(" getName : [-] ").append(a.getName()).append(" ; [+] ").append(b.getName()).append("\n");  }
         
- 
+        Map<String, CTResult> a_c = a.getChildMap();
+        Map<String, CTResult> b_c = b.getChildMap();
+        
+        if (a_c.size() == b_c.size())
+        {
+            for ( Map.Entry<String, CTResult> e : a_c.entrySet())
+            {
+                String a_casename = e.getKey();
+                CTResult a_cr = e.getValue();
+                
+                if (b_c.containsKey(a_casename))
+                {
+                    DiffResult p_res = diff_result(a_casename, a_cr, b_c.get(a_casename));
+                    
+                    if (!p_res.eq) {
+                        
+                        diff_count++;
+                        sb.append(p_res.diff_list);
+                    }
+                    
+                } else { 
+                
+                    diff_count++;
+                    sb.append(" Child result : [-] ").append(a_casename).append(" ; [+] null\n");
+
+                
+                }
+               
+                
+            }
+        } else {
+            diff_count++;
+            sb.append(" number of children : [-] ").append(a_c.size()).append(" ; [+] ").append(b_c.size()).append("\n");
+        }
+        
+        
+        if (lvl != null) {sb.insert(0,lvl + ":\n");}
         res.diff_list = sb.toString();
         if (diff_count > 0 ) {
             res.eq = false;
@@ -155,10 +191,8 @@ public class CTResultTestUtil {
     {
         
         StringBuilder sb = new StringBuilder();
-        DiffResult res = diff_result(a, b);
+        DiffResult res = diff_result(null, a, b);
         
-        Map<String, CTResult> a_c = a.getChildMap();
-        Map<String, CTResult> b_c = b.getChildMap();
         
         
         
@@ -190,7 +224,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.init_per_suite.html");
                 setStarted(parse_date("2012-11-19 16:37:20"));
                 setEnded(parse_date("2012-11-19 16:37:20"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.59e-4"));
             }
         });
@@ -201,7 +235,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,parallel}]");
                 setStarted(parse_date("2012-11-19 16:37:20"));
                 setEnded(parse_date("2012-11-19 16:37:20"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -212,7 +246,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,compile}]");
                 setStarted(parse_date("2012-11-19 16:37:20"));
                 setEnded(parse_date("2012-11-19 16:37:20"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -222,7 +256,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.c_syntax.html");
                 setStarted(parse_date("2012-11-19 16:37:20"));
                 setEnded(parse_date("2012-11-19 16:37:20"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.168523"));
             }
         });
@@ -232,7 +266,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.c_string.html");
                 setStarted(parse_date("2012-11-19 16:37:20"));
                 setEnded(parse_date("2012-11-19 16:37:20"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.325744"));
             }
         });
@@ -242,7 +276,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.c_implicit_before_choice.html");
                 setStarted(parse_date("2012-11-19 16:37:20"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.059244"));
             }
         });
@@ -253,7 +287,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,compile}]");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
                 setGroup_time("0.663s");
             }
@@ -265,7 +299,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,ber}]");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -275,7 +309,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ber_choiceinseq.html");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.24876"));
             }
         });
@@ -286,7 +320,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -296,7 +330,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ber_optional.html");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.318778"));
             }
         });
@@ -306,7 +340,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ber_optional_keyed_list.html");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:21"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.188609"));
             }
         });
@@ -317,7 +351,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:37:21"));
                 setEnded(parse_date("2012-11-19 16:37:22"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("0.589s");
             }
@@ -329,7 +363,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,ber}]");
                 setStarted(parse_date("2012-11-19 16:37:22"));
                 setEnded(parse_date("2012-11-19 16:37:22"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("3.0e-6"));
                 setGroup_time("0.920s");
             }
@@ -341,7 +375,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:37:22"));
                 setEnded(parse_date("2012-11-19 16:37:22"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -351,7 +385,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.parse.html");
                 setStarted(parse_date("2012-11-19 16:37:22"));
                 setEnded(parse_date("2012-11-19 16:37:23"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.011498"));
             }
         });
@@ -361,7 +395,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_driver_load.html");
                 setStarted(parse_date("2012-11-19 16:37:23"));
                 setEnded(parse_date("2012-11-19 16:37:23"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.097611"));
             }
         });
@@ -371,7 +405,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_undecoded_rest.html");
                 setStarted(parse_date("2012-11-19 16:37:23"));
                 setEnded(parse_date("2012-11-19 16:37:24"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.279114"));
             }
         });
@@ -381,7 +415,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_inline.html");
                 setStarted(parse_date("2012-11-19 16:37:24"));
                 setEnded(parse_date("2012-11-19 16:39:36"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("131.527725"));
             }
         });
@@ -391,7 +425,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.specialized_decodes.html");
                 setStarted(parse_date("2012-11-19 16:39:36"));
                 setEnded(parse_date("2012-11-19 16:39:38"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.242191"));
             }
         });
@@ -401,7 +435,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.special_decode_performance.html");
                 setStarted(parse_date("2012-11-19 16:39:38"));
                 setEnded(parse_date("2012-11-19 16:39:45"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("6.790573"));
             }
         });
@@ -411,7 +445,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testmegaco.html");
                 setStarted(parse_date("2012-11-19 16:39:45"));
                 setEnded(parse_date("2012-11-19 16:40:07"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("21.759825"));
             }
         });
@@ -421,7 +455,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testconstraints.html");
                 setStarted(parse_date("2012-11-19 16:40:07"));
                 setEnded(parse_date("2012-11-19 16:40:08"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.492838"));
             }
         });
@@ -431,7 +465,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testcompactbitstring.html");
                 setStarted(parse_date("2012-11-19 16:40:08"));
                 setEnded(parse_date("2012-11-19 16:40:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.453291"));
             }
         });
@@ -442,7 +476,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:40:10"));
                 setEnded(parse_date("2012-11-19 16:40:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("5.0e-6"));
                 setGroup_time("167.984s");
             }
@@ -453,7 +487,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.default.html");
                 setStarted(parse_date("2012-11-19 16:40:10"));
                 setEnded(parse_date("2012-11-19 16:40:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.602426"));
             }
         });
@@ -464,7 +498,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:40:10"));
                 setEnded(parse_date("2012-11-19 16:40:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -474,7 +508,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testprim.html");
                 setStarted(parse_date("2012-11-19 16:40:10"));
                 setEnded(parse_date("2012-11-19 16:40:11"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.860138"));
             }
         });
@@ -484,7 +518,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.rtui.html");
                 setStarted(parse_date("2012-11-19 16:40:11"));
                 setEnded(parse_date("2012-11-19 16:40:12"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.407612"));
             }
         });
@@ -494,7 +528,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testprimstrings.html");
                 setStarted(parse_date("2012-11-19 16:40:12"));
                 setEnded(parse_date("2012-11-19 16:40:13"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.663719"));
             }
         });
@@ -504,7 +538,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testinvokemod.html");
                 setStarted(parse_date("2012-11-19 16:40:13"));
                 setEnded(parse_date("2012-11-19 16:40:15"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.273196"));
             }
         });
@@ -514,7 +548,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.per.html");
                 setStarted(parse_date("2012-11-19 16:40:15"));
                 setEnded(parse_date("2012-11-19 16:40:46"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("31.205467"));
             }
         });
@@ -524,7 +558,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ber_other.html");
                 setStarted(parse_date("2012-11-19 16:40:46"));
                 setEnded(parse_date("2012-11-19 16:41:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("15.125298"));
             }
         });
@@ -534,7 +568,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.h323test.html");
                 setStarted(parse_date("2012-11-19 16:41:01"));
                 setEnded(parse_date("2012-11-19 16:42:23"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("82.11066"));
             }
         });
@@ -544,7 +578,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.per_generalstring.html");
                 setStarted(parse_date("2012-11-19 16:42:23"));
                 setEnded(parse_date("2012-11-19 16:42:32"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("8.919536"));
             }
         });
@@ -555,7 +589,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:42:32"));
                 setEnded(parse_date("2012-11-19 16:42:32"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
                 setGroup_time("141.798s");
             }
@@ -566,7 +600,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchoprim.html");
                 setStarted(parse_date("2012-11-19 16:42:32"));
                 setEnded(parse_date("2012-11-19 16:42:32"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.370767"));
             }
         });
@@ -576,7 +610,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchoextension.html");
                 setStarted(parse_date("2012-11-19 16:42:32"));
                 setEnded(parse_date("2012-11-19 16:42:33"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.569508"));
             }
         });
@@ -586,7 +620,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchooptional.html");
                 setStarted(parse_date("2012-11-19 16:42:33"));
                 setEnded(parse_date("2012-11-19 16:42:34"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.567762"));
             }
         });
@@ -596,7 +630,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchooptionalimplicittag.html");
                 setStarted(parse_date("2012-11-19 16:42:34"));
                 setEnded(parse_date("2012-11-19 16:42:34"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.270062"));
             }
         });
@@ -606,7 +640,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchorecursive.html");
                 setStarted(parse_date("2012-11-19 16:42:34"));
                 setEnded(parse_date("2012-11-19 16:42:34"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.421442"));
             }
         });
@@ -616,7 +650,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchotyperefcho.html");
                 setStarted(parse_date("2012-11-19 16:42:34"));
                 setEnded(parse_date("2012-11-19 16:42:35"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.565474"));
             }
         });
@@ -626,7 +660,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchotyperefprim.html");
                 setStarted(parse_date("2012-11-19 16:42:35"));
                 setEnded(parse_date("2012-11-19 16:42:35"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.47209"));
             }
         });
@@ -636,7 +670,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchotyperefseq.html");
                 setStarted(parse_date("2012-11-19 16:42:35"));
                 setEnded(parse_date("2012-11-19 16:42:36"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.512324"));
             }
         });
@@ -646,7 +680,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchotyperefset.html");
                 setStarted(parse_date("2012-11-19 16:42:36"));
                 setEnded(parse_date("2012-11-19 16:42:37"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.548801"));
             }
         });
@@ -656,7 +690,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testdef.html");
                 setStarted(parse_date("2012-11-19 16:42:37"));
                 setEnded(parse_date("2012-11-19 16:42:37"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.573548"));
             }
         });
@@ -666,7 +700,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testopt.html");
                 setStarted(parse_date("2012-11-19 16:42:37"));
                 setEnded(parse_date("2012-11-19 16:42:38"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.573132"));
             }
         });
@@ -676,7 +710,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqdefault.html");
                 setStarted(parse_date("2012-11-19 16:42:38"));
                 setEnded(parse_date("2012-11-19 16:42:39"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.330679"));
             }
         });
@@ -687,7 +721,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:42:39"));
                 setEnded(parse_date("2012-11-19 16:42:39"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -697,7 +731,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchoexternal.html");
                 setStarted(parse_date("2012-11-19 16:42:39"));
                 setEnded(parse_date("2012-11-19 16:42:41"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.03466"));
             }
         });
@@ -707,7 +741,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testprimexternal.html");
                 setStarted(parse_date("2012-11-19 16:42:41"));
                 setEnded(parse_date("2012-11-19 16:42:44"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.300119"));
             }
         });
@@ -717,7 +751,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqextension.html");
                 setStarted(parse_date("2012-11-19 16:42:44"));
                 setEnded(parse_date("2012-11-19 16:42:45"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.888749"));
             }
         });
@@ -727,7 +761,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqexternal.html");
                 setStarted(parse_date("2012-11-19 16:42:45"));
                 setEnded(parse_date("2012-11-19 16:42:48"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.405869"));
             }
         });
@@ -737,7 +771,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqofexternal.html");
                 setStarted(parse_date("2012-11-19 16:42:48"));
                 setEnded(parse_date("2012-11-19 16:42:51"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.66739"));
             }
         });
@@ -747,7 +781,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqoftag.html");
                 setStarted(parse_date("2012-11-19 16:42:51"));
                 setEnded(parse_date("2012-11-19 16:42:54"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("3.420717"));
             }
         });
@@ -757,7 +791,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqtag.html");
                 setStarted(parse_date("2012-11-19 16:42:54"));
                 setEnded(parse_date("2012-11-19 16:42:56"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.278535"));
             }
         });
@@ -767,7 +801,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetextension.html");
                 setStarted(parse_date("2012-11-19 16:42:56"));
                 setEnded(parse_date("2012-11-19 16:42:58"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.931976"));
             }
         });
@@ -777,7 +811,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetexternal.html");
                 setStarted(parse_date("2012-11-19 16:42:58"));
                 setEnded(parse_date("2012-11-19 16:43:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.403893"));
             }
         });
@@ -787,7 +821,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetofexternal.html");
                 setStarted(parse_date("2012-11-19 16:43:01"));
                 setEnded(parse_date("2012-11-19 16:43:03"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.779315"));
             }
         });
@@ -797,7 +831,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetoftag.html");
                 setStarted(parse_date("2012-11-19 16:43:03"));
                 setEnded(parse_date("2012-11-19 16:43:07"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("3.620528"));
             }
         });
@@ -807,7 +841,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsettag.html");
                 setStarted(parse_date("2012-11-19 16:43:07"));
                 setEnded(parse_date("2012-11-19 16:43:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.407491"));
             }
         });
@@ -818,7 +852,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:10"));
                 setEnded(parse_date("2012-11-19 16:43:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("30.480s");
             }
@@ -829,7 +863,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqoptional.html");
                 setStarted(parse_date("2012-11-19 16:43:10"));
                 setEnded(parse_date("2012-11-19 16:43:11"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.314495"));
             }
         });
@@ -839,7 +873,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqprim.html");
                 setStarted(parse_date("2012-11-19 16:43:11"));
                 setEnded(parse_date("2012-11-19 16:43:11"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.387987"));
             }
         });
@@ -849,7 +883,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqtyperefcho.html");
                 setStarted(parse_date("2012-11-19 16:43:11"));
                 setEnded(parse_date("2012-11-19 16:43:12"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.409836"));
             }
         });
@@ -860,7 +894,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:12"));
                 setEnded(parse_date("2012-11-19 16:43:12"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -870,7 +904,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqtyperefprim.html");
                 setStarted(parse_date("2012-11-19 16:43:12"));
                 setEnded(parse_date("2012-11-19 16:43:13"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.711774"));
             }
         });
@@ -880,7 +914,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testtypevaluenotation.html");
                 setStarted(parse_date("2012-11-19 16:43:13"));
                 setEnded(parse_date("2012-11-19 16:43:14"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.163447"));
             }
         });
@@ -891,7 +925,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:14"));
                 setEnded(parse_date("2012-11-19 16:43:14"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("1.951s");
             }
@@ -902,7 +936,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqtyperefseq.html");
                 setStarted(parse_date("2012-11-19 16:43:14"));
                 setEnded(parse_date("2012-11-19 16:43:15"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.414641"));
             }
         });
@@ -912,7 +946,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqtyperefset.html");
                 setStarted(parse_date("2012-11-19 16:43:15"));
                 setEnded(parse_date("2012-11-19 16:43:16"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.554791"));
             }
         });
@@ -923,7 +957,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:16"));
                 setEnded(parse_date("2012-11-19 16:43:16"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -933,7 +967,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqof.html");
                 setStarted(parse_date("2012-11-19 16:43:16"));
                 setEnded(parse_date("2012-11-19 16:43:18"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.105249"));
             }
         });
@@ -943,7 +977,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqofindefinite.html");
                 setStarted(parse_date("2012-11-19 16:43:18"));
                 setEnded(parse_date("2012-11-19 16:43:27"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("8.646708"));
             }
         });
@@ -954,7 +988,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:27"));
                 setEnded(parse_date("2012-11-19 16:43:27"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("10.830s");
             }
@@ -965,7 +999,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqofcho.html");
                 setStarted(parse_date("2012-11-19 16:43:27"));
                 setEnded(parse_date("2012-11-19 16:43:28"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.309213"));
             }
         });
@@ -975,7 +1009,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetdefault.html");
                 setStarted(parse_date("2012-11-19 16:43:28"));
                 setEnded(parse_date("2012-11-19 16:43:29"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.617894"));
             }
         });
@@ -985,7 +1019,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testextensionadditiongroup.html");
                 setStarted(parse_date("2012-11-19 16:43:29"));
                 setEnded(parse_date("2012-11-19 16:43:50"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("20.907178"));
             }
         });
@@ -995,7 +1029,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetoptional.html");
                 setStarted(parse_date("2012-11-19 16:43:50"));
                 setEnded(parse_date("2012-11-19 16:43:51"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.191268"));
             }
         });
@@ -1005,7 +1039,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetprim.html");
                 setStarted(parse_date("2012-11-19 16:43:51"));
                 setEnded(parse_date("2012-11-19 16:43:51"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.341903"));
             }
         });
@@ -1015,7 +1049,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsettyperefcho.html");
                 setStarted(parse_date("2012-11-19 16:43:51"));
                 setEnded(parse_date("2012-11-19 16:43:52"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.443185"));
             }
         });
@@ -1025,7 +1059,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsettyperefprim.html");
                 setStarted(parse_date("2012-11-19 16:43:52"));
                 setEnded(parse_date("2012-11-19 16:43:52"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.435385"));
             }
         });
@@ -1035,7 +1069,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsettyperefseq.html");
                 setStarted(parse_date("2012-11-19 16:43:52"));
                 setEnded(parse_date("2012-11-19 16:43:53"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.576335"));
             }
         });
@@ -1045,7 +1079,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsettyperefset.html");
                 setStarted(parse_date("2012-11-19 16:43:53"));
                 setEnded(parse_date("2012-11-19 16:43:54"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.753968"));
             }
         });
@@ -1055,7 +1089,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetof.html");
                 setStarted(parse_date("2012-11-19 16:43:54"));
                 setEnded(parse_date("2012-11-19 16:43:56"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.397339"));
             }
         });
@@ -1065,7 +1099,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetofcho.html");
                 setStarted(parse_date("2012-11-19 16:43:56"));
                 setEnded(parse_date("2012-11-19 16:43:57"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.533805"));
             }
         });
@@ -1075,7 +1109,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testenumext.html");
                 setStarted(parse_date("2012-11-19 16:43:57"));
                 setEnded(parse_date("2012-11-19 16:43:58"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.315627"));
             }
         });
@@ -1085,7 +1119,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.value_test.html");
                 setStarted(parse_date("2012-11-19 16:43:58"));
                 setEnded(parse_date("2012-11-19 16:43:58"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.528537"));
             }
         });
@@ -1095,7 +1129,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.value_bad_enum_test.html");
                 setStarted(parse_date("2012-11-19 16:43:58"));
                 setEnded(parse_date("2012-11-19 16:43:58"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.010522"));
             }
         });
@@ -1105,7 +1139,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseq2738.html");
                 setStarted(parse_date("2012-11-19 16:43:58"));
                 setEnded(parse_date("2012-11-19 16:43:59"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.399933"));
             }
         });
@@ -1116,7 +1150,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:59"));
                 setEnded(parse_date("2012-11-19 16:43:59"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -1126,7 +1160,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.constructed.html");
                 setStarted(parse_date("2012-11-19 16:43:59"));
                 setEnded(parse_date("2012-11-19 16:43:59"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.211527"));
             }
         });
@@ -1136,7 +1170,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ber_decode_error.html");
                 setStarted(parse_date("2012-11-19 16:43:59"));
                 setEnded(parse_date("2012-11-19 16:43:59"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.183874"));
             }
         });
@@ -1147,7 +1181,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:59"));
                 setEnded(parse_date("2012-11-19 16:43:59"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
                 setGroup_time("0.476s");
             }
@@ -1159,7 +1193,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:43:59"));
                 setEnded(parse_date("2012-11-19 16:43:59"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -1169,7 +1203,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testseqindefinite.html");
                 setStarted(parse_date("2012-11-19 16:43:59"));
                 setEnded(parse_date("2012-11-19 16:44:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.474358"));
             }
         });
@@ -1179,7 +1213,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsetindefinite.html");
                 setStarted(parse_date("2012-11-19 16:44:00"));
                 setEnded(parse_date("2012-11-19 16:44:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.49315"));
             }
         });
@@ -1190,7 +1224,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:44:00"));
                 setEnded(parse_date("2012-11-19 16:44:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("1.050s");
             }
@@ -1201,7 +1235,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testchoiceindefinite.html");
                 setStarted(parse_date("2012-11-19 16:44:00"));
                 setEnded(parse_date("2012-11-19 16:44:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.175578"));
             }
         });
@@ -1211,7 +1245,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.per_open_type.html");
                 setStarted(parse_date("2012-11-19 16:44:01"));
                 setEnded(parse_date("2012-11-19 16:44:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.052379"));
             }
         });
@@ -1221,7 +1255,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testinfobjectclass.html");
                 setStarted(parse_date("2012-11-19 16:44:01"));
                 setEnded(parse_date("2012-11-19 16:46:18"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("137.357469"));
             }
         });
@@ -1231,7 +1265,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testparameterizedinfobj.html");
                 setStarted(parse_date("2012-11-19 16:46:18"));
                 setEnded(parse_date("2012-11-19 16:46:19"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.67499"));
             }
         });
@@ -1241,7 +1275,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testmergecompile.html");
                 setStarted(parse_date("2012-11-19 16:46:19"));
                 setEnded(parse_date("2012-11-19 16:49:25"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("186.244348"));
             }
         });
@@ -1251,7 +1285,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testobj.html");
                 setStarted(parse_date("2012-11-19 16:49:25"));
                 setEnded(parse_date("2012-11-19 16:50:31"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("65.539456"));
             }
         });
@@ -1261,7 +1295,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testdeeptconstr.html");
                 setStarted(parse_date("2012-11-19 16:50:31"));
                 setEnded(parse_date("2012-11-19 16:50:33"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.689109"));
             }
         });
@@ -1271,7 +1305,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testexport.html");
                 setStarted(parse_date("2012-11-19 16:50:33"));
                 setEnded(parse_date("2012-11-19 16:50:33"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.015524"));
             }
         });
@@ -1281,7 +1315,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testimport.html");
                 setStarted(parse_date("2012-11-19 16:50:33"));
                 setEnded(parse_date("2012-11-19 16:50:33"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.029942"));
             }
         });
@@ -1292,7 +1326,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:50:33"));
                 setEnded(parse_date("2012-11-19 16:50:33"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.3e-5"));
             }
         });
@@ -1302,7 +1336,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testparambasic.html");
                 setStarted(parse_date("2012-11-19 16:50:33"));
                 setEnded(parse_date("2012-11-19 16:50:34"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.457138"));
             }
         });
@@ -1312,7 +1346,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testder.html");
                 setStarted(parse_date("2012-11-19 16:50:34"));
                 setEnded(parse_date("2012-11-19 16:50:36"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.435239"));
             }
         });
@@ -1323,7 +1357,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:50:36"));
                 setEnded(parse_date("2012-11-19 16:50:36"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
                 setGroup_time("2.973s");
             }
@@ -1334,7 +1368,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testmvrasn6.html");
                 setStarted(parse_date("2012-11-19 16:50:36"));
                 setEnded(parse_date("2012-11-19 16:51:10"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("33.344807"));
             }
         });
@@ -1344,7 +1378,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testcontextswitchingtypes.html");
                 setStarted(parse_date("2012-11-19 16:51:10"));
                 setEnded(parse_date("2012-11-19 16:51:11"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.146326"));
             }
         });
@@ -1354,7 +1388,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testopentypeimplicittag.html");
                 setStarted(parse_date("2012-11-19 16:51:11"));
                 setEnded(parse_date("2012-11-19 16:51:11"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.382565"));
             }
         });
@@ -1364,7 +1398,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.duplicate_tags.html");
                 setStarted(parse_date("2012-11-19 16:51:11"));
                 setEnded(parse_date("2012-11-19 16:51:11"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.023122"));
             }
         });
@@ -1374,7 +1408,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testrose.html");
                 setStarted(parse_date("2012-11-19 16:51:11"));
                 setEnded(parse_date("2012-11-19 16:51:13"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.293384"));
             }
         });
@@ -1384,7 +1418,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testinstance_of.html");
                 setStarted(parse_date("2012-11-19 16:51:13"));
                 setEnded(parse_date("2012-11-19 16:51:14"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.77847"));
             }
         });
@@ -1394,7 +1428,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testtcap.html");
                 setStarted(parse_date("2012-11-19 16:51:14"));
                 setEnded(parse_date("2012-11-19 16:51:18"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.628473"));
             }
         });
@@ -1404,7 +1438,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_paramtypeinfobj.html");
                 setStarted(parse_date("2012-11-19 16:51:18"));
                 setEnded(parse_date("2012-11-19 16:51:23"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.90093"));
             }
         });
@@ -1414,7 +1448,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_ws_paramclass.html");
                 setStarted(parse_date("2012-11-19 16:51:23"));
                 setEnded(parse_date("2012-11-19 16:51:26"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.521289"));
             }
         });
@@ -1424,7 +1458,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_defed_objectidentifier.html");
                 setStarted(parse_date("2012-11-19 16:51:26"));
                 setEnded(parse_date("2012-11-19 16:51:26"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.166826"));
             }
         });
@@ -1434,7 +1468,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testselectiontype.html");
                 setStarted(parse_date("2012-11-19 16:51:26"));
                 setEnded(parse_date("2012-11-19 16:51:27"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.441951"));
             }
         });
@@ -1444,7 +1478,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testsslspecs.html");
                 setStarted(parse_date("2012-11-19 16:51:27"));
                 setEnded(parse_date("2012-11-19 16:52:38"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("70.827242"));
             }
         });
@@ -1454,7 +1488,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testnortel.html");
                 setStarted(parse_date("2012-11-19 16:52:38"));
                 setEnded(parse_date("2012-11-19 16:52:42"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.079327"));
             }
         });
@@ -1465,7 +1499,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 16:52:42"));
                 setEnded(parse_date("2012-11-19 16:52:42"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -1475,7 +1509,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_modified_x420.html");
                 setStarted(parse_date("2012-11-19 16:52:42"));
                 setEnded(parse_date("2012-11-19 16:52:48"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("5.773261"));
             }
         });
@@ -1485,7 +1519,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testx420.html");
                 setStarted(parse_date("2012-11-19 16:52:48"));
                 setEnded(parse_date("2012-11-19 17:03:14"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("626.101607"));
             }
         });
@@ -1496,7 +1530,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,group}]");
                 setStarted(parse_date("2012-11-19 17:03:14"));
                 setEnded(parse_date("2012-11-19 17:03:14"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("631.956s");
             }
@@ -1507,7 +1541,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testtcapsystem.html");
                 setStarted(parse_date("2012-11-19 17:03:14"));
                 setEnded(parse_date("2012-11-19 17:03:56"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("41.524458"));
             }
         });
@@ -1517,7 +1551,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testnbapsystem.html");
                 setStarted(parse_date("2012-11-19 17:03:56"));
                 setEnded(parse_date("2012-11-19 17:06:33"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("157.041671"));
             }
         });
@@ -1527,7 +1561,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_compile_options.html");
                 setStarted(parse_date("2012-11-19 17:06:33"));
                 setEnded(parse_date("2012-11-19 17:06:35"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.832763"));
             }
         });
@@ -1537,7 +1571,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testdoubleellipses.html");
                 setStarted(parse_date("2012-11-19 17:06:35"));
                 setEnded(parse_date("2012-11-19 17:06:36"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.561547"));
             }
         });
@@ -1547,7 +1581,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_x691.html");
                 setStarted(parse_date("2012-11-19 17:06:36"));
                 setEnded(parse_date("2012-11-19 17:06:38"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.889708"));
             }
         });
@@ -1557,7 +1591,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ticket_6143.html");
                 setStarted(parse_date("2012-11-19 17:06:38"));
                 setEnded(parse_date("2012-11-19 17:06:38"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.044597"));
             }
         });
@@ -1567,7 +1601,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testextensionadditiongroup.341198.837.html");
                 setStarted(parse_date("2012-11-19 17:06:38"));
                 setEnded(parse_date("2012-11-19 17:07:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("21.788653"));
             }
         });
@@ -1577,7 +1611,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.test_otp_9688.html");
                 setStarted(parse_date("2012-11-19 17:07:00"));
                 setEnded(parse_date("2012-11-19 17:07:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.037403"));
             }
         });
@@ -1588,7 +1622,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,parallel}]");
                 setStarted(parse_date("2012-11-19 17:07:00"));
                 setEnded(parse_date("2012-11-19 17:07:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
                 setGroup_time("1780.337s");
             }
@@ -1600,7 +1634,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,app_test}]");
                 setStarted(parse_date("2012-11-19 17:07:00"));
                 setEnded(parse_date("2012-11-19 17:07:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.5e-5"));
             }
         });
@@ -1610,7 +1644,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.end_per_suite.html");
                 setStarted(parse_date("2012-11-19 17:07:00"));
                 setEnded(parse_date("2012-11-19 17:07:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.0e-6"));
             }
         });
@@ -1620,7 +1654,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_app_test.init_per_suite.html");
                 setStarted(parse_date("2012-11-19 17:07:00"));
                 setEnded(parse_date("2012-11-19 17:07:00"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.03667"));
             }
         });
@@ -1630,7 +1664,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_app_test.fields.html");
                 setStarted(parse_date("2012-11-19 17:07:00"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.14e-4"));
             }
         });
@@ -1640,7 +1674,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_app_test.modules.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.002038"));
             }
         });
@@ -1650,7 +1684,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_app_test.exportall.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("8.56e-4"));
             }
         });
@@ -1660,7 +1694,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_app_test.app_depend.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.061"));
             }
         });
@@ -1670,7 +1704,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_app_test.end_per_suite.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.0e-6"));
                 setGroup_time("0.336s");
             }
@@ -1681,7 +1715,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.init_per_suite.341221.200.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("9.08e-4"));
             }
         });
@@ -1692,7 +1726,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,app_test}]");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.5e-5"));
             }
         });
@@ -1703,7 +1737,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,appup_test}]");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -1713,7 +1747,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.end_per_suite.341221.435.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -1723,7 +1757,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_appup_test.init_per_suite.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("6.0e-5"));
             }
         });
@@ -1733,7 +1767,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_appup_test.appup.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.002736"));
             }
         });
@@ -1743,7 +1777,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_appup_test.end_per_suite.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
                 setGroup_time("0.071s");
             }
@@ -1754,7 +1788,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.init_per_suite.341221.569.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("5.87e-4"));
             }
         });
@@ -1765,7 +1799,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,appup_test}]");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
             }
         });
@@ -1775,7 +1809,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testcomment.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:01"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.040794"));
             }
         });
@@ -1785,7 +1819,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testname2number.html");
                 setStarted(parse_date("2012-11-19 17:07:01"));
                 setEnded(parse_date("2012-11-19 17:07:06"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("4.268871"));
             }
         });
@@ -1795,7 +1829,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ticket_7407.html");
                 setStarted(parse_date("2012-11-19 17:07:06"));
                 setEnded(parse_date("2012-11-19 17:07:06"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.33156"));
             }
         });
@@ -1805,7 +1839,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.ticket7904.html");
                 setStarted(parse_date("2012-11-19 17:07:06"));
                 setEnded(parse_date("2012-11-19 17:07:06"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("0.150899"));
             }
         });
@@ -1816,7 +1850,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,performance}]");
                 setStarted(parse_date("2012-11-19 17:07:06"));
                 setEnded(parse_date("2012-11-19 17:07:06"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
@@ -1827,7 +1861,7 @@ public class CTResultTestUtil {
                 setStarted(parse_date("2012-11-19 17:07:06"));
                 setEnded(parse_date("2012-11-19 17:07:14"));
                 setResult(parse_result("ok"));
-                setResult_msg(" encode: 155 micro, decode: 199 micro.  [ber]");
+                setResult_msg("ok: encode: 155 micro, decode: 199 micro.  [ber]");
                 setElapsed(parse_float("7.370036"));
             }
         });
@@ -1838,7 +1872,7 @@ public class CTResultTestUtil {
                 setStarted(parse_date("2012-11-19 17:07:14"));
                 setEnded(parse_date("2012-11-19 17:07:21"));
                 setResult(parse_result("ok"));
-                setResult_msg(" encode: 153 micro, decode: 194 micro.  [ber_bin]");
+                setResult_msg("ok: encode: 153 micro, decode: 194 micro.  [ber_bin]");
                 setElapsed(parse_float("7.396968"));
             }
         });
@@ -1848,8 +1882,8 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testtimer_ber_bin_opt.html");
                 setStarted(parse_date("2012-11-19 17:07:21"));
                 setEnded(parse_date("2012-11-19 17:07:26"));
-                setResult(parse_result("ok"));
-                setResult_msg(" encode: 73 micro, decode: 89 micro.  [ber_bin,optimize]");
+                setResult(parse_result("ok")); 
+                setResult_msg("ok: encode: 73 micro, decode: 89 micro.  [ber_bin,optimize]");
                 setElapsed(parse_float("5.133003"));
             }
         });
@@ -1860,7 +1894,7 @@ public class CTResultTestUtil {
                 setStarted(parse_date("2012-11-19 17:07:26"));
                 setEnded(parse_date("2012-11-19 17:07:31"));
                 setResult(parse_result("ok"));
-                setResult_msg(" encode: 75 micro, decode: 58 micro.  [ber_bin,optimize,driver]");
+                setResult_msg("ok: encode: 75 micro, decode: 58 micro.  [ber_bin,optimize,driver]");
                 setElapsed(parse_float("5.143168"));
             }
         });
@@ -1870,8 +1904,8 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.testtimer_per.html");
                 setStarted(parse_date("2012-11-19 17:07:31"));
                 setEnded(parse_date("2012-11-19 17:07:38"));
-                setResult(parse_result("ok"));
-                setResult_msg(" encode: 160 micro, decode: 317 micro.  [per]");
+                setResult(parse_result("ok")); 
+                setResult_msg("ok: encode: 160 micro, decode: 317 micro.  [per]");
                 setElapsed(parse_float("6.546077"));
             }
         });
@@ -1882,7 +1916,7 @@ public class CTResultTestUtil {
                 setStarted(parse_date("2012-11-19 17:07:38"));
                 setEnded(parse_date("2012-11-19 17:07:44"));
                 setResult(parse_result("ok"));
-                setResult_msg(" encode: 160 micro, decode: 271 micro.  [per_bin]");
+                setResult_msg("ok: encode: 160 micro, decode: 271 micro.  [per_bin]");
                 setElapsed(parse_float("6.147938"));
             }
         });
@@ -1893,7 +1927,7 @@ public class CTResultTestUtil {
                 setStarted(parse_date("2012-11-19 17:07:44"));
                 setEnded(parse_date("2012-11-19 17:07:50"));
                 setResult(parse_result("ok"));
-                setResult_msg(" encode: 93 micro, decode: 91 micro.  [per_bin,optimize]");
+                setResult_msg("ok: encode: 93 micro, decode: 91 micro.  [per_bin,optimize]");
                 setElapsed(parse_float("5.453173"));
             }
         });
@@ -1904,7 +1938,7 @@ public class CTResultTestUtil {
                 setStarted(parse_date("2012-11-19 17:07:50"));
                 setEnded(parse_date("2012-11-19 17:07:56"));
                 setResult(parse_result("ok"));
-                setResult_msg(" encode: 110 micro, decode: 269 micro.  []");
+                setResult_msg("ok: encode: 110 micro, decode: 269 micro.  []");
                 setElapsed(parse_float("5.968391"));
             }
         });
@@ -1914,7 +1948,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.smp.html");
                 setStarted(parse_date("2012-11-19 17:07:56"));
                 setEnded(parse_date("2012-11-19 17:07:56"));
-                setResult(parse_result("skipped"));
+                setResult(parse_result("skipped")); setResult_msg("skipped"); 
             }
         });
         r.addChild(new CTResult(null) {
@@ -1924,7 +1958,7 @@ public class CTResultTestUtil {
                 setGroup_props("[{name,performance}]");
                 setStarted(parse_date("2012-11-19 17:07:56"));
                 setEnded(parse_date("2012-11-19 17:07:56"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("2.0e-6"));
                 setGroup_time("49.478s");
             }
@@ -1935,7 +1969,7 @@ public class CTResultTestUtil {
                 setLog_file("asn1_suite.end_per_suite.341276.169.html");
                 setStarted(parse_date("2012-11-19 17:07:56"));
                 setEnded(parse_date("2012-11-19 17:07:56"));
-                setResult(parse_result("ok"));
+                setResult(parse_result("ok")); setResult_msg("ok"); 
                 setElapsed(parse_float("1.0e-6"));
             }
         });
