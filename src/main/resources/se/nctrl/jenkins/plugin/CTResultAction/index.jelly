@@ -87,12 +87,7 @@ $j(document).ready(function () {
 function filterGlobal(str) {
 
 
-  /*
-  for(var i = 1; i <= $j('.dataTable').size(); i++) {
 
-    $j("#dt_" + i).dataTable().fnFilter(
-    str, null, true, true);
-  }*/
 $j('.dataTable').each(function() { $j(this).dataTable().fnFilter( str, null, true, true);  });
 
 }
@@ -122,8 +117,7 @@ function initTable(elem) {
   $j(wrapper + " label > input").unwrap();
   $j(wrapper + " .dataTables_filter").addClass("input-prepend");
   $j(wrapper + " .dataTables_filter > input").before("<span class='add-on'><i class='icon-filter'></i></span>");
-  //$j(wrapper + " .dataTables_filter > input").attr('id', 'inputIcon').attr('placeholder', 'filter').addClass("span8");
-$j(wrapper + " .dataTables_filter > input").attr('placeholder', 'filter').addClass("span8");
+  $j(wrapper + " .dataTables_filter > input").attr('placeholder', 'filter').addClass("span8");
 
 // Show sorting order in table headers
 $j(wrapper + " th[class^=sorting]").bind('click', function(event) {
@@ -336,10 +330,7 @@ $j('[id^=c_]').bind('click', expand_table);
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li><a href="#" id="nav-back"><i class="icon-chevron-left icon-white"></i> Go back</a></li>
-              <!--
-              <li><a href="#">Project</a></li>
-              <li><a href="#">Export</a></li>
-               -->              
+             
             </ul>
 
           </div><!--/.nav-collapse -->
@@ -371,9 +362,6 @@ $j('[id^=c_]').bind('click', expand_table);
           <dt>Skipped test cases</dt>
           <dd>${it.skipCount}</dd>
           </dl>
-          
-           <button class="btn btn-large btn-primary" type="button" id="ajaxb">Test</button>
-           
           </p>
           </div>
 
