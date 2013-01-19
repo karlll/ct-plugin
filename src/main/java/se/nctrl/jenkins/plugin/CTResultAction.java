@@ -12,10 +12,11 @@ import hudson.tasks.test.AbstractTestResultAction;
  */
 public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
 
+    private static final String viewURL = "ctResults";
+    
     private CTResult result = null;
     private transient BuildListener bl;
-    private static final String viewURL = "ctResults";
-    private transient CTReportLayout report_layout = null;
+    private CTReportLayout report_layout = null;
 
     public CTResultAction(AbstractBuild owner, CTResult result, BuildListener bl) {
         super(owner);
