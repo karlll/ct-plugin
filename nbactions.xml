@@ -7,7 +7,7 @@
             </goals>
             <properties>
                 <jpda.listen>maven</jpda.listen>
-                <hudson.tasks.test.TestResultParser.ignoreTimestampCheck>true</hudson.tasks.test.TestResultParser.ignoreTimestampCheck>
+                <Env.MAVEN_OPTS>-Xms256m -Xmx1024m</Env.MAVEN_OPTS>
             </properties>
         </action>
     </actions>

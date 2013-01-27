@@ -1,6 +1,10 @@
 #!/bin/bash
 set -x
 
+# Run OTP tests
+#
+# Set your paths below
+#
 OTP_TOP="/home/karl/Projects/otp/"
 OTP_TEST_DIR="/home/karl/Projects/otp/release/tests"
 TEST_LOG_BASE="/home/karl/tmp/otp_tests/logs"

@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTSuiteLogParser extends CTLogParser {
 
@@ -59,16 +59,14 @@ public class CTSuiteLogParser extends CTLogParser {
     private CTResult tr_root = null;
     private CTResult tr_current_child = null;
     private boolean parsing_child = false;
-    private String suite_path;
 
-    public CTSuiteLogParser(AbstractBuild build) {
-        
-        super(build);
+    public CTSuiteLogParser() {
+    
     }
     
     public CTResult parse(File f) throws FileNotFoundException, IOException {
         
-        this.tr_root = new CTResult(this.getBuild());
+        this.tr_root = new CTResult();
         //this.suite_path = f.
         
         FileInputStream fs = new FileInputStream(f);
@@ -189,7 +187,7 @@ public class CTSuiteLogParser extends CTLogParser {
 
                 logger.log(Level.FINE, "Creating new child = {0}", value);
 
-                this.tr_current_child = new CTResult(this.getBuild());
+                this.tr_current_child = new CTResult();
                 this.tr_current_child.setCase_name(value);
                 this.parsing_child = true;
 

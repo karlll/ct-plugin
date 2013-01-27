@@ -7,15 +7,12 @@ import org.junit.Test;
 
 /**
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTResultTest {
     
     
 
-    /**
-     * Test of addChild method, of class CTResult.
-     */
     @Test
     public void testAddChild() {
         

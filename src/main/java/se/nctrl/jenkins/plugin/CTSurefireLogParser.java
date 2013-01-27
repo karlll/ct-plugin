@@ -1,11 +1,9 @@
 package se.nctrl.jenkins.plugin;
 
-import hudson.model.AbstractBuild;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLInputFactory;
@@ -13,17 +11,18 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 /**
+ * TODO: Implement this
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTSurefireLogParser extends CTLogParser {
 
     private CTResult tr_root = null;
     private static final Logger logger = Logger.getLogger(CTSurefireLogParser.class.getName());
     
-    public CTSurefireLogParser(AbstractBuild build)
+    public CTSurefireLogParser()
     {
-        super(build);
+    
     }
     
     

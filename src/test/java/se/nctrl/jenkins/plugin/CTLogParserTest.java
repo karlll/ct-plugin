@@ -2,7 +2,6 @@
 package se.nctrl.jenkins.plugin;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +21,7 @@ import org.junit.Test;
 
 /**
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTLogParserTest {
     
@@ -101,7 +100,7 @@ public class CTLogParserTest {
     @Test
     public void testParseSuiteLog() {
 
-        CTLogParser p = new CTSuiteLogParser(null);
+        CTLogParser p = new CTSuiteLogParser();
         URL u = this.getClass().getResource(TEST_SUITE_LOG);
         test_parse(p,u);
 

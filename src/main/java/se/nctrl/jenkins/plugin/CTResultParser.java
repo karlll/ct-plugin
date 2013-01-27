@@ -1,63 +1,32 @@
 package se.nctrl.jenkins.plugin;
 
-import hudson.AbortException;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.FilePath.FileCallable;
 import hudson.Launcher;
-import hudson.Util;
 import hudson.model.AbstractBuild;
 import hudson.model.TaskListener;
 import hudson.remoting.VirtualChannel;
 import hudson.tasks.test.TestResult;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 
 
 @Extension
 public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImpl {
 
-    private AbstractBuild build;
     private static final String logname = "suite.log";
-
+    private String expandedTestResultLocation;
   
-    private class FF implements IOFileFilter {
-
-        
-        public boolean accept(File file) {
-            if (file.getName().equals(logname)) {
-                return true;
-            } else {
-                return false;
-                
-            }
-
-        }
-
-        public boolean accept(File dir, String name) {
-            if (name.equals(logname)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-    
-    
     @Override
     protected TestResult parse(List<File> list, Launcher lnchr, TaskListener tl) throws InterruptedException, IOException {
         
-        CTResult parsed_result = new CTResult(this.build);
+        CTResult parsed_result = new CTResult();
 
         for (File f : list) {
             tl.getLogger().println("Reading log file  " + f.toString());
-            CTSuiteLogParser p =  new CTSuiteLogParser(this.build);
+            CTSuiteLogParser p =  new CTSuiteLogParser();
             CTResult res = p.parse(f);
             parsed_result.addChild(res);
             
@@ -99,69 +68,42 @@ public class CTResultParser extends hudson.tasks.test.DefaultTestResultParserImp
         }
     }
     
-    public TestResult parse(final String testResultLocations, final boolean useGlob, final AbstractBuild build, final Launcher launcher, final TaskListener listener) throws InterruptedException, IOException {
+  
+public TestResult parse(final String testResultLocations, final AbstractBuild build, final Launcher launcher, final TaskListener listener) throws InterruptedException, IOException {
         
-            this.build = build;
-    
-    // part below is based on DefaultTestResultParserImpl
-            return build.getWorkspace().act(new FileCallable<TestResult>() {
-            final boolean ignoreTimestampCheck = IGNORE_TIMESTAMP_CHECK; // so that the property can be set on the master
-            final long buildTime = build.getTimestamp().getTimeInMillis();
-            final long nowMaster = System.currentTimeMillis();
-
-            public TestResult invoke(File dir, VirtualChannel channel) throws IOException, InterruptedException {
-                final long nowSlave = System.currentTimeMillis();
-
-                // files older than this timestamp is considered stale
-                long localBuildTime = buildTime + (nowSlave - nowMaster);
-                FilePath[] paths;
-                if (useGlob) {
-                    paths = new FilePath(dir).list(testResultLocations);
-                    if (paths.length == 0) {
-                        throw new AbortException("No test reports that matches Glob " + testResultLocations + " found. Configuration error?");
+            
+            this.expandedTestResultLocation = build.getEnvironment(listener).expand(testResultLocations);
+            
+            TestResult root = build.getWorkspace().act(new FileCallable<TestResult>()
+            {
+                
+                
+                public TestResult invoke(File file, VirtualChannel vc) throws IOException, InterruptedException {
+         
+                    
+                    CTResult parsed_result = new CTResult();
+                    CTSuiteLogParser p =  new CTSuiteLogParser();
+                    FilePath root = new FilePath(new File(expandedTestResultLocation));   
+                    FilePath[] fs = root.list("**/" + logname);
+                    
+                    
+                    for (FilePath path : fs) {
+                        listener.getLogger().println("Parsing log file : " + path.getRemote());
+                        CTResult res = p.parse(new File(path.getRemote()));
+                        parsed_result.addChild(res);
+                        
                     }
-                } else {
-                    File root = new File(testResultLocations);
-                    LinkedList<File> fl = (LinkedList<File>) FileUtils.listFiles(root ,new FF(), TrueFileFilter.INSTANCE);
-                     if (fl.size() == 0) {
-                        throw new AbortException("No test reports that matches absolute path " + testResultLocations + " found. Configuration error?");
-                    }
-                    paths = new FilePath[fl.size()];
-                    int i = 0;
-                    for (File f : fl) { // ugly! refactor.
-                       paths[i] = new FilePath(f);
-                       i = i + 1;
-                    }
+                    
+                                       
+                    printSummary(parsed_result, listener);
+                    
+                    return parsed_result;
+                    
+                    
                 }
-
-                // since dir is local, paths all point to the local files
-                List<File> files = new ArrayList<File>(paths.length);
-                for (FilePath path : paths) {
-                    File report = new File(path.getRemote());
-                    if (ignoreTimestampCheck || localBuildTime - 3000 /*error margin*/ < report.lastModified()) {
-                        // this file is created during this build
-                        files.add(report);
-                    }
-                }
-
-                if (files.isEmpty()) {
-                    // none of the files were new
-                    throw new AbortException(
-                        String.format(
-                        "Test reports were found but none of them are new. Did tests run? \n"+
-                        "For example, %s is %s old\n", paths[0].getRemote(),
-                        Util.getTimeSpanString(localBuildTime-paths[0].lastModified())));
-                }
-
-                return parse(files,launcher,listener);
-            }
-        });
-    }
-    
-    @Override
-    public TestResult parse(String testResultLocations, AbstractBuild build, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
-        this.build = build;
-        return super.parse(testResultLocations, build, launcher, listener);
+            });
+            
+            return root;
     }
 
     

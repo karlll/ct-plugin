@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTResult  extends TestResult{
 
@@ -22,7 +22,6 @@ public class CTResult  extends TestResult{
     private static final long serialVersionUID = 1L;
     
  
-    
     
     private AbstractBuild<?, ?> builder;
     private TestObject parent;
@@ -55,7 +54,6 @@ public class CTResult  extends TestResult{
     private String node_stop;
 
    
-    
     
     
     
@@ -276,6 +274,7 @@ public class CTResult  extends TestResult{
     public void setNode_stop(String node_stop) {
         this.node_stop = node_stop;
     }  
+    
     //------------------------------------------------------------------------
     
     
@@ -424,7 +423,7 @@ public class CTResult  extends TestResult{
     }
   
     
-    private CTResult() {
+    public CTResult() {
         
         this.builder = null; // TODO : set this?
         this.children = null;
@@ -443,8 +442,9 @@ public class CTResult  extends TestResult{
         
         return this.builder;
         
+        
     }
-
+    
     @Override
     public TestObject getParent() {
         return this.parent;
@@ -563,11 +563,6 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
 }
     
 
-//     @Override
-//    public String annotate(String text) {
-//        return "";
-//    }
-
     @Override
     public Result getBuildResult() {
         switch (this.getResult()) {
@@ -606,25 +601,13 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
     public int getFailCount() {
         return this.getTotalFailedCases();
     }
-
-    /*
-    @Override
-    public int getFailedSince() {
-        return 0;
-    }
-*/
-    //@Override
-    //public  Run<?,?>	getFailedSinceRun()  {return null;}
     
     @Override
     public Collection<? extends TestResult> getFailedTests() {
         return filterChildrenByResult(0);
     }
 
-    //@Override
-    //public AbstractTestResultAction	getParentAction()  {}
-
-    @Override
+   @Override
     public int getPassCount() {
         return this.getTotalPassedCases();
     }
@@ -677,13 +660,6 @@ private Collection<? extends TestResult> filterChildrenByResult( int result)
         return this.getResult() == 1;
     }
  
-    //@Override
-    //public void	setParentAction(AbstractTestResultAction action)  {}
-
-    //@Override
-    //public void	tally()  {}
-    
-    
     @Override
     public String getName()
     { return this.case_name;}

@@ -20,7 +20,10 @@ import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
 
+
+
 public class CTLogCollector extends Recorder {
+
 
     private final String log_path;
     
@@ -36,8 +39,10 @@ public class CTLogCollector extends Recorder {
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         
+           
+           
            CTResultParser log_p = new CTResultParser();
-           CTResult res = (CTResult) log_p.parse(log_path, false, build, launcher, listener);
+           CTResult res = (CTResult) log_p.parse(log_path, build, launcher, listener);
             
             if (!res.isPassed())
             {
@@ -58,12 +63,13 @@ public class CTLogCollector extends Recorder {
     
     public BuildStepMonitor getRequiredMonitorService() {
         return BuildStepMonitor.STEP;
+        
     }
 
   
     @Override
     public Action getProjectAction(AbstractProject<?, ?> project) {
-        return null;
+                return null;
     }
     
    
@@ -71,21 +77,17 @@ public class CTLogCollector extends Recorder {
     @Extension 
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
         
-        private boolean useGLOB;
-
-        public boolean getUseGLOB() {
-            return useGLOB;
-        }
         
         public String getDisplayName() {
             return "Collect Common Test results";
+            
         }
         
         public FormValidation doCheckPath(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
             { 
-                return FormValidation.error("Please provide a log path");
+                return FormValidation.error("Please provide a log root path");
             }
             return FormValidation.ok();
         }
@@ -98,7 +100,6 @@ public class CTLogCollector extends Recorder {
 
         @Override
         public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
-            useGLOB = formData.getBoolean("useGLOB");
             save();
             return super.configure(req,formData);
         }

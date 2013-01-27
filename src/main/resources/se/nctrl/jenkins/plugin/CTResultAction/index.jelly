@@ -18,7 +18,7 @@
 </script>
 
 
-<link href="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/bootstrap/css/bootstrap.min.css"  rel="stylesheet" media="screen" />
+<link href="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/bootstrap/css/bootstrap.min.css"  rel="stylesheet" media="screen" />
    <style type="text/css">
       body {
         padding-top: 60px;
@@ -56,19 +56,19 @@
 
       }
     </style>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/jquery/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/jquery/jq-no_conflict.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/datatables/jquery.dataTables.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/datatables/dataTables.bootstrap-no_conflict.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/raphael-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.raphael-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.bar-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.dot-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.line-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.line-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/g.raphael/g.pie-min.js" type="text/javascript" charset="utf-8"></script>
-<script src="${HUDSON_CONTEXT_PATH}/plugin/jenkins_ct/spin/spin.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/jquery/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/jquery/jq-no_conflict.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/datatables/jquery.dataTables.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/datatables/dataTables.bootstrap-no_conflict.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/raphael-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/g.raphael-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/g.bar-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/g.dot-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/g.line-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/g.line-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/g.raphael/g.pie-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${HUDSON_CONTEXT_PATH}/plugin/ct-plugin/spin/spin.min.js" type="text/javascript" charset="utf-8"></script>
 
 
 <script type="text/javascript">
@@ -247,7 +247,6 @@ function expand_table(event) {
     toggle_box(box, e_id);
   }
 
-  // todo: 
 
 }
 
@@ -304,7 +303,7 @@ $j("#nav-back").click(function() {
   return false;
 });
 
-// Epand table
+// Expand table
 $j('[id^=c_]').bind('click', expand_table);             
 
  

@@ -9,7 +9,7 @@ import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 /**
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTReportLayout {
   

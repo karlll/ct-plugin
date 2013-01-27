@@ -8,7 +8,7 @@ import hudson.tasks.test.AbstractTestResultAction;
 
 /**
  *
- * @author karl
+ * @author karl l <karl@ninjacontrol.com>
  */
 public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
 
@@ -23,6 +23,7 @@ public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
         this.result = result;
         this.bl = bl;
         this.report_layout = new CTReportLayout(this.result);
+        
         
         
     }
@@ -76,6 +77,13 @@ public class CTResultAction  extends AbstractTestResultAction<CTResultAction> {
         }
     }
     
+   
+    @Override
+    public String getIconFileName()
+            
+    {
+        return "/plugin/ct-plugin/erlang_24x24.png";
+    }
    
     
 }
