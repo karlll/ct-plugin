@@ -347,11 +347,9 @@ $j('[id^=c_]').bind('click', expand_table);
             <div id="result_chart"></div>
           </div>
           <div class="span5">
-          <p class="lead"><h3>Test results, summary</h3>
+          <p class="lead"><h3>Test results</h3>
           <hr />
           <dl class="dl-horizontal">
-          <dt>Number of suites</dt>
-          <dd>${it.result.children.size()}</dd>
           <dt>Number of test cases</dt>
           <dd>${it.totalCount}</dd>
           <dt>Passed test cases</dt>
